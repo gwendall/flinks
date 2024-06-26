@@ -7,7 +7,7 @@ var __webpack_exports__ = {};
 
 const CORS_PROXY = 'https://punkcam-cors-anywhere-99a09af4e7c4.herokuapp.com/';
 const PUNKCAM_LINK = "https://labs.punk.cam/embed?url=https%3A%2F%2Fpunkmaker.xyz%2Fapi%2Fog%3Fp%3D002-061-048-050%26mode%3Drender%26background%3D0";
-const RENDERING_DOMAIN = "https://flinks-amber.vercel.app";
+const RENDERING_DOMAIN = "https://flinks.gg";
 function buildIframe(src) {
     const iframe = document.createElement('iframe');
     iframe.classList.add('flinks-iframe');
