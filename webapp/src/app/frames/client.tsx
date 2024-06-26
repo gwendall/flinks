@@ -1,23 +1,14 @@
 "use client";
 
-import { FarcasterSigner, FrameUI, fallbackFrameContext, signFrameAction } from "@frames.js/render";
+import { FarcasterSigner, fallbackFrameContext, signFrameAction } from "@frames.js/render";
 import { useFrame } from "@frames.js/render/use-frame";
 import { FrameImageNext } from "@frames.js/render/next";
 import { useSearchParams } from "next/navigation";
 import EmbedPageContainer from "@/components/EmbedPageContainer";
 import styled from "styled-components";
+import { FrameRenderer } from "@/components/FrameRenderer";
 
-const FrameContainer = styled(EmbedPageContainer)`
-    > div {
-        flex: 1;
-        > div {
-            display: flex;
-            > img {
-                object-fit: contain !important;
-            }
-        }
-    }
-`;
+const FrameContainer = styled(EmbedPageContainer)``;
 
 export default function FrameClientPage() {
     const searchParams = useSearchParams();
@@ -54,9 +45,8 @@ export default function FrameClientPage() {
     return (
         <FrameContainer>
             {/* <pre>{JSON.stringify({ url }, null, 2)}</pre> */}
-            <FrameUI
+            <FrameRenderer
                 frameState={frameState}
-                theme={{}}
                 FrameImage={FrameImageNext}
             />
         </FrameContainer>

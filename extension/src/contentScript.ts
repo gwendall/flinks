@@ -72,7 +72,7 @@ function replaceDOMElements() {
                     .then((response) => response.json())
                     .then((response) => {
                         if (response.status === 'success' && response.frame) {
-                            const iframe = buildIframe(RENDERING_DOMAIN + "/frames?url=" + encodeURIComponent(tweetLink));
+                            const iframe = buildIframe(RENDERING_DOMAIN + "/frame?url=" + encodeURIComponent(tweetLink));
                             tweetText?.parentElement?.appendChild(iframe);
                         }
                     });
