@@ -44,10 +44,10 @@ export default function FrameClientPage() {
     });
     return (
         <FrameContainer>
-            {/* <pre>{JSON.stringify({ url }, null, 2)}</pre> */}
             <FrameRenderer
                 frameState={frameState}
                 FrameImage={FrameImageNext}
+                enableImageDebugging
             />
         </FrameContainer>
     )
