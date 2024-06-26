@@ -85,7 +85,7 @@ export default function FramePage() {
     });
     return (
         <EmbedPageContainer>
-            {/* <pre>{JSON.stringify({ url, data, isLoading }, null, 2)}</pre> */}
+            <pre>{JSON.stringify({ url }, null, 2)}</pre>
             {isLoading ? (
                 <StatusText>Loading...</StatusText>
             ) : !data || data?.status !== 'success' ? (
