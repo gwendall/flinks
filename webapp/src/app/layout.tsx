@@ -1,5 +1,7 @@
-import type { Metadata } from "next";
+"use client";
+
 import { Inter } from "next/font/google";
+import { NeynarContextProvider, Theme } from "@neynar/react";
 import StyledComponentsRegistry from "@/lib/registry";
 import GlobalStyle from "@/components/GlobalStyle";
 import ReactQueryProvider from "@/components/ReactQueryProvider";
@@ -7,11 +9,6 @@ import "./globals.css";
 import React from "react";
 
 const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Flinks | Frames across the web",
-  description: "Interact with Farcaster Frames, all across the web.",
-};
 
 export default function RootLayout({
   children,
@@ -21,14 +18,29 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ReactQueryProvider>
-          <StyledComponentsRegistry>
-            <GlobalStyle />
-            <React.Suspense fallback={null}>
-              {children}
-            </React.Suspense>
-          </StyledComponentsRegistry>
-        </ReactQueryProvider>
+        <NeynarContextProvider
+          settings={{
+            clientId: process.env.NEXT_PUBLIC_NEYNAR_CLIENT_ID || "",
+            defaultTheme: Theme.Dark,
+            eventsCallbacks: {
+              onAuthSuccess: (...args) => {
+                console.log("Auth success", args);
+              },
+              onSignout(...args) {
+                console.log("Signout", args);
+              },
+            },
+          }}
+        >
+          <ReactQueryProvider>
+            <StyledComponentsRegistry>
+              <GlobalStyle />
+              <React.Suspense fallback={null}>
+                {children}
+              </React.Suspense>
+            </StyledComponentsRegistry>
+          </ReactQueryProvider>
+        </NeynarContextProvider>
       </body>
     </html>
   );

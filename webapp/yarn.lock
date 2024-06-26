@@ -200,6 +200,11 @@
   resolved "https://registry.yarnpkg.com/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-14.1.4.tgz#bccf5beccfde66d6c66fa4e2509118c796385eda"
   integrity sha512-4Rto21sPfw555sZ/XNLqfxDUNeLhNYGO2dlPqsnuCg8N8a2a9u1ltqBOPQ4vj1Gf7eJC0W2hHG2eYUHuiXgY2w==
 
+"@neynar/react@^0.4.6":
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/@neynar/react/-/react-0.4.6.tgz#33825ed2548ff4bb3de4776cd03639f730c1c3be"
+  integrity sha512-9NvDmRkZzje6IVMGkxjwe1Y7miqrTU4X4Npc0KuF4eOFo8uZIiR9tXf+QmlqAAhOGOn2NXORITFdQBHNoMsOtw==
+
 "@noble/curves@1.2.0", "@noble/curves@~1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@noble/curves/-/curves-1.2.0.tgz#92d7e12e4e49b23105a2555c6984d41733d65c35"
