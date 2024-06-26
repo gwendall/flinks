@@ -66,7 +66,7 @@ function replaceDOMElements() {
                     .then((response) => {
                     var _a;
                     if (response.status === 'success' && response.frame) {
-                        const iframe = buildIframe(RENDERING_DOMAIN + "/frame?url=" + encodeURIComponent(tweetLink));
+                        const iframe = buildIframe(RENDERING_DOMAIN + "/frames?url=" + encodeURIComponent(tweetLink));
                         (_a = tweetText === null || tweetText === void 0 ? void 0 : tweetText.parentElement) === null || _a === void 0 ? void 0 : _a.appendChild(iframe);
                     }
                 });

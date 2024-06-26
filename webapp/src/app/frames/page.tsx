@@ -1,51 +1,29 @@
-"use client";
+import { Metadata } from "next";
+import FrameClientPage from "./client";
+import axios from "axios";
+import { Frame } from "frames.js";
 
-import { FarcasterSigner, FrameUI, fallbackFrameContext, signFrameAction } from "@frames.js/render";
-import { useFrame } from "@frames.js/render/use-frame";
-import { FrameImageNext } from "@frames.js/render/next";
-import { useSearchParams } from "next/navigation";
-import EmbedPageContainer from "@/components/EmbedPageContainer";
+export default function FrameServerPage() {
+    return <FrameClientPage />;
+}
 
-export default function FramesPage() {
-    const searchParams = useSearchParams();
-    const url = searchParams.get('url') as string;
-    const farcasterSigner: FarcasterSigner = {
-        fid: 1,
-        status: 'approved',
-        publicKey:
-            "0x00000000000000000000000000000000000000000000000000000000000000000",
-        privateKey:
-            "0x00000000000000000000000000000000000000000000000000000000000000000",
-    };
-    const frameState = useFrame({
-        // replace with your frame url
-        homeframeUrl: url,
-        // corresponds to the name of the route for POST in step 3
-        frameActionProxy: "/api/frames/render",
-        connectedAddress: undefined,
-        // corresponds to the name of the route for GET in step 3
-        frameGetProxy: "/api/frames/render",
-        frameContext: fallbackFrameContext,
-        // map to your identity if you have one
-        signerState: {
-            hasSigner: farcasterSigner !== undefined,
-            signer: farcasterSigner,
-            onSignerlessFramePress: () => {
-                // Only run if `hasSigner` is set to `false`
-                // This is a good place to throw an error or prompt the user to login
-                alert("A frame button was pressed without a signer. Perhaps you want to prompt a login");
-            },
-            signFrameAction: signFrameAction,
-        },
-    });
-    return (
-        <EmbedPageContainer>
-            {/* <pre>{JSON.stringify({ url }, null, 2)}</pre> */}
-            <FrameUI
-                frameState={frameState}
-                theme={{}}
-                FrameImage={FrameImageNext}
-            />
-        </EmbedPageContainer>
-    )
+const apiUrl = process.env.NEXT_PUBLIC_API_URL as string;
+
+type Props = {
+    params: { id: string }
+    searchParams: {
+        url: string;
+    }
+}
+
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+    const { url } = searchParams || {};
+    const frameData: {
+        status: string;
+        frame: Frame;
+    } = await axios.get(apiUrl + "/frames?url=" + encodeURIComponent(url)).then(res => res.data);
+    return {
+        title: frameData.frame?.title,
+        description: "A page that renders a frame on the server",
+    }
 }
