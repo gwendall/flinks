@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
-import type { ImgHTMLAttributes } from "react";
 import React from "react";
-import type { Frame, FrameButton } from "frames.js";
-import { FrameStackMessage, FrameStackRequestError, FrameState, FrameTheme } from "@frames.js/render";
 import styled from "styled-components";
+import type { ImgHTMLAttributes } from "react";
+import type { Frame, FrameButton } from "frames.js";
+import { FrameStackMessage, FrameStackRequestError, FrameState } from "@frames.js/render";
 
 function getErrorMessageFromFramesStackItem(
     item: FrameStackMessage | FrameStackRequestError
@@ -125,7 +125,6 @@ type FrameRendererProps = {
 /** A UI component only, that should be easy for any app to integrate */
 export function FrameRenderer({
     frameState,
-    // theme,
     // FrameImage,
     allowPartialFrame,
     enableImageDebugging,

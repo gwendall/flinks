@@ -1,12 +1,12 @@
 "use client";
 
+import styled from "styled-components";
+import { useSearchParams } from "next/navigation";
 import { FarcasterSigner, fallbackFrameContext, signFrameAction } from "@frames.js/render";
 import { useFrame } from "@frames.js/render/use-frame";
 import { FrameImageNext } from "@frames.js/render/next";
-import { useSearchParams } from "next/navigation";
-import EmbedPageContainer from "@/components/EmbedPageContainer";
-import styled from "styled-components";
 import { FrameRenderer } from "@/components/FrameRenderer";
+import EmbedPageContainer from "@/components/EmbedPageContainer";
 
 const FrameContainer = styled(EmbedPageContainer)``;
 
