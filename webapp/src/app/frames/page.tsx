@@ -8,6 +8,7 @@ export default function FrameServerPage() {
 }
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL as string;
+console.log("apiUrl", apiUrl);
 
 type Props = {
     params: { id: string }

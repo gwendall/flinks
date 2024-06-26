@@ -5,6 +5,19 @@ import { useFrame } from "@frames.js/render/use-frame";
 import { FrameImageNext } from "@frames.js/render/next";
 import { useSearchParams } from "next/navigation";
 import EmbedPageContainer from "@/components/EmbedPageContainer";
+import styled from "styled-components";
+
+const FrameContainer = styled(EmbedPageContainer)`
+    > div {
+        flex: 1;
+        > div {
+            display: flex;
+            > img {
+                object-fit: contain !important;
+            }
+        }
+    }
+`;
 
 export default function FrameClientPage() {
     const searchParams = useSearchParams();
@@ -39,13 +52,13 @@ export default function FrameClientPage() {
         },
     });
     return (
-        <EmbedPageContainer>
+        <FrameContainer>
             {/* <pre>{JSON.stringify({ url }, null, 2)}</pre> */}
             <FrameUI
                 frameState={frameState}
                 theme={{}}
                 FrameImage={FrameImageNext}
             />
-        </EmbedPageContainer>
+        </FrameContainer>
     )
 }
