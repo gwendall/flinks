@@ -1,0 +1,20 @@
+{
+    "manifest_version": 3,
+    "name": "Flinks",
+    "version": "1.0",
+    "description": "Interact with Farcaster Frames across the web.",
+    "permissions": [
+        "activeTab",
+        "scripting"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "dist/contentScript.js"
+            ]
+        }
+    ]
+}
