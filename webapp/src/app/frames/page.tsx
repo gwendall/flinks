@@ -1,15 +1,12 @@
-// import { Metadata } from "next";
-// import axios from "axios";
-// import { Frame } from "frames.js";
+import { Metadata } from "next";
+import axios from "axios";
+import { Frame } from "frames.js";
+import { apiUrl } from "@/utils/const";
 import FrameClientPage from "./client";
 
 export default function FrameServerPage() {
     return <FrameClientPage />;
 }
-
-/*
-const apiUrl = process.env.NEXT_PUBLIC_API_URL as string;
-console.log("apiUrl: ", apiUrl);
 
 type Props = {
     params: { id: string }
@@ -38,4 +35,3 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
         description: "A page that renders a frame on the server",
     }
 }
-*/
