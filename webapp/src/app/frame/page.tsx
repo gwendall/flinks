@@ -52,6 +52,19 @@ const Button = styled.button`
     }
 `;
 
+const StatusText = styled.div`
+    width: 100%;
+    height: 100%;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+`;
+
 export default function FramePage() {
     const searchParams = useSearchParams();
     const url = searchParams.get('url') as string;
@@ -74,9 +87,9 @@ export default function FramePage() {
         <EmbedPageContainer>
             {/* <pre>{JSON.stringify({ url, data, isLoading }, null, 2)}</pre> */}
             {isLoading ? (
-                <p>Loading...</p>
+                <StatusText>Loading...</StatusText>
             ) : !data || data?.status !== 'success' ? (
-                <div>This is not a valid frame</div>
+                <StatusText>This is not a valid frame</StatusText>
             ) : data.frame ? (
                 <>
                     <ImageContainer>
@@ -93,7 +106,7 @@ export default function FramePage() {
                     </ButtonsContainer>
                 </>
             ) : (
-                <div>Link data not found</div>
+                <StatusText>Link data not found</StatusText>
             )}
         </EmbedPageContainer>
     );

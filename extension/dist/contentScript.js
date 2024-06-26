@@ -96,8 +96,8 @@ function replaceDOMElements() {
                 // fetchMetatags(tweetLink).then((metaTags) => {
                 //     console.log('Meta tags:', tweetLink, metaTags);
                 // });
-                // const iframe = buildIframe("https://flinks-amber.vercel.app/frame");
-                const iframe = buildIframe(tweetLink);
+                const iframe = buildIframe("https://flinks-amber.vercel.app/frame?url=" + encodeURIComponent(tweetLink));
+                // const iframe = buildIframe(tweetLink);
                 // const iframe = buildIframe(PUNKCAM_LINK);
                 // const iframe = buildIframe("http://localhost:3000/frame");
                 (_a = tweetText === null || tweetText === void 0 ? void 0 : tweetText.parentElement) === null || _a === void 0 ? void 0 : _a.appendChild(iframe);
