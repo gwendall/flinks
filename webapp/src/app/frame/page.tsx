@@ -2,9 +2,7 @@
 "use client";
 
 import EmbedPageContainer from "@/components/EmbedPageContainer";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { Frame } from "frames.js";
+import useFrameData from "@/hooks/useFrameData";
 import { useSearchParams } from "next/navigation";
 import React from "react";
 import styled from "styled-components"
@@ -80,21 +78,7 @@ const StatusText = styled.div`
 export default function FramePage() {
     const searchParams = useSearchParams();
     const url = searchParams.get('url') as string;
-    const { data, isLoading } = useQuery({
-        queryKey: ["frame", url],
-        queryFn: async () => {
-            const response = await axios.get('/api/frames', {
-                params: {
-                    url
-                }
-            });
-            return response.data as {
-                status: string;
-                frame: Frame;
-            };
-        },
-        enabled: !!url,
-    });
+    const { data, isLoading } = useFrameData(url);
     const [imageError, setImageError] = React.useState<boolean>(false);
     return (
         <EmbedPageContainer>

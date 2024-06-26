@@ -5,6 +5,10 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/*.{ts,tsx,js,css}",
+    "./src/app/**/*.{ts,tsx,js,css}",
+    "./node_modules/@frames.js/render/dist/*.{ts,tsx,js,css}",
+    "./node_modules/@frames.js/render/dist/**/*.{ts,tsx,js,css}",
   ],
   theme: {
     extend: {

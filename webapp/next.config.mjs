@@ -3,7 +3,19 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
-    async headers() {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+      {
+        protocol: "http",
+        hostname: "**",
+      },
+    ],
+  },
+  async headers() {
     return [
       {
         source: "/", // change to appropriate path
