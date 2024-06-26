@@ -63,6 +63,8 @@ const StatusText = styled.div`
     font-weight: bold;
     text-transform: uppercase;
     text-align: center;
+    font-size: 1rem;
+    font-family: sans-serif;
 `;
 
 export default function FramePage() {
