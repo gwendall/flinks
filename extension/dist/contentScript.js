@@ -39,7 +39,7 @@ function extractTweetLinks(tweet) {
         .map(el => { var _a; return (_a = el.querySelector('a[href]')) === null || _a === void 0 ? void 0 : _a.getAttribute('href'); })
         .filter((link) => link === null || link === void 0 ? void 0 : link.startsWith("https://"))
         .filter(Boolean) || [];
-    return [...tweetTextLinks, ...tweetCardsLinks];
+    return [...new Set([...tweetTextLinks, ...tweetCardsLinks])].filter(Boolean);
 }
 function findFirstParentWithAttribute(element, attribute) {
     while (element) {
@@ -60,25 +60,32 @@ function replaceDOMElements() {
             tweetText.style.overflowX = 'visible';
             tweetText.style.overflowY = 'visible';
             const tweetLinks = extractTweetLinks(tweet);
-            tweetLinks.filter(Boolean).forEach((tweetLink) => {
+            tweetLinks.forEach((tweetLink) => {
                 var _a;
                 const iframe = buildIframe(RENDERING_DOMAIN + "/frame?url=" + encodeURIComponent(tweetLink));
                 (_a = tweetText === null || tweetText === void 0 ? void 0 : tweetText.parentElement) === null || _a === void 0 ? void 0 : _a.appendChild(iframe);
+                // fetch(RENDERING_DOMAIN + "/api/frames?url=" + encodeURIComponent(tweetLink))
+                //     .then((response) => response.json())
+                //     .then((response) => {
+                //         console.log("is frame?", { tweetLink, response });
+                //         // const iframe = buildIframe(RENDERING_DOMAIN + "/frame?url=" + encodeURIComponent(tweetLink));
+                //         // tweetText?.parentElement?.appendChild(iframe);
+                //     });
             });
             // 3. Remove photos and cards
+            /*
             if (tweetLinks.length > 0) {
                 const tweetCards = tweet.querySelectorAll('[data-testid="card.wrapper"]');
                 tweetCards.forEach(tweetCard => {
-                    var _a;
-                    (_a = tweetCard.remove) === null || _a === void 0 ? void 0 : _a.call(tweetCard);
+                    tweetCard.remove?.();
                 });
                 const tweetPhotos = tweet.querySelectorAll('[data-testid="tweetPhoto"]');
                 tweetPhotos.forEach(tweetPhoto => {
-                    var _a;
-                    const photoContainer = findFirstParentWithAttribute(tweetPhoto, "aria-labelledby");
-                    (_a = photoContainer === null || photoContainer === void 0 ? void 0 : photoContainer.remove) === null || _a === void 0 ? void 0 : _a.call(photoContainer);
+                    const photoContainer = findFirstParentWithAttribute(tweetPhoto as HTMLElement, "aria-labelledby");
+                    photoContainer?.remove?.();
                 });
             }
+            */
         }
     });
 }

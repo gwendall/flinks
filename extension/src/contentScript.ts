@@ -41,7 +41,7 @@ function extractTweetLinks(tweet: Element) {
         .filter((link) => link?.startsWith("https://"))
         .filter(Boolean) as string[] || [];
 
-    return [...tweetTextLinks, ...tweetCardsLinks];
+    return [...new Set([...tweetTextLinks, ...tweetCardsLinks])].filter(Boolean);
 }
 
 function findFirstParentWithAttribute(element: HTMLElement | null, attribute: string) {
@@ -68,12 +68,20 @@ function replaceDOMElements() {
 
             const tweetLinks = extractTweetLinks(tweet);
 
-            tweetLinks.filter(Boolean).forEach((tweetLink) => {
+            tweetLinks.forEach((tweetLink) => {
                 const iframe = buildIframe(RENDERING_DOMAIN + "/frame?url=" + encodeURIComponent(tweetLink));
                 tweetText?.parentElement?.appendChild(iframe);
+                // fetch(RENDERING_DOMAIN + "/api/frames?url=" + encodeURIComponent(tweetLink))
+                //     .then((response) => response.json())
+                //     .then((response) => {
+                //         console.log("is frame?", { tweetLink, response });
+                //         // const iframe = buildIframe(RENDERING_DOMAIN + "/frame?url=" + encodeURIComponent(tweetLink));
+                //         // tweetText?.parentElement?.appendChild(iframe);
+                //     });
             });
 
             // 3. Remove photos and cards
+            /*
             if (tweetLinks.length > 0) {
                 const tweetCards = tweet.querySelectorAll('[data-testid="card.wrapper"]');
                 tweetCards.forEach(tweetCard => {
@@ -85,6 +93,7 @@ function replaceDOMElements() {
                     photoContainer?.remove?.();
                 });
             }
+            */
         }
     });
 }
