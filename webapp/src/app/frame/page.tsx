@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Frame } from "frames.js";
 import { useSearchParams } from "next/navigation";
+import React from "react";
 import styled from "styled-components"
 
 const ImageContainer = styled.div`
@@ -94,6 +95,7 @@ export default function FramePage() {
         },
         enabled: !!url,
     });
+    const [imageError, setImageError] = React.useState<boolean>(false);
     return (
         <EmbedPageContainer>
             {isLoading ? (
@@ -103,7 +105,15 @@ export default function FramePage() {
             ) : data.frame ? (
                 <>
                     <ImageContainer>
-                        <img src={data.frame.image} alt="frame-img" />
+                        <img
+                            src={data.frame.image || data.frame.ogImage}
+                            alt="frame-img"
+                            onError={(e) => setImageError(true)}
+                            style={{ opacity: imageError ? 0 : 1 }}
+                        />
+                        {imageError ? (
+                            <StatusText>{data.frame.title}</StatusText>
+                        ) : null}
                     </ImageContainer>
                     <ButtonsContainer>
                         <ButtonsInner>

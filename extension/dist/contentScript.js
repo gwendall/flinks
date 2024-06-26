@@ -61,16 +61,15 @@ function replaceDOMElements() {
             tweetText.style.overflowY = 'visible';
             const tweetLinks = extractTweetLinks(tweet);
             tweetLinks.forEach((tweetLink) => {
-                var _a;
-                const iframe = buildIframe(RENDERING_DOMAIN + "/frame?url=" + encodeURIComponent(tweetLink));
-                (_a = tweetText === null || tweetText === void 0 ? void 0 : tweetText.parentElement) === null || _a === void 0 ? void 0 : _a.appendChild(iframe);
-                // fetch(RENDERING_DOMAIN + "/api/frames?url=" + encodeURIComponent(tweetLink))
-                //     .then((response) => response.json())
-                //     .then((response) => {
-                //         console.log("is frame?", { tweetLink, response });
-                //         // const iframe = buildIframe(RENDERING_DOMAIN + "/frame?url=" + encodeURIComponent(tweetLink));
-                //         // tweetText?.parentElement?.appendChild(iframe);
-                //     });
+                fetch(RENDERING_DOMAIN + "/api/frames?url=" + encodeURIComponent(tweetLink))
+                    .then((response) => response.json())
+                    .then((response) => {
+                    var _a;
+                    if (response.status === 'success' && response.frame) {
+                        const iframe = buildIframe(RENDERING_DOMAIN + "/frame?url=" + encodeURIComponent(tweetLink));
+                        (_a = tweetText === null || tweetText === void 0 ? void 0 : tweetText.parentElement) === null || _a === void 0 ? void 0 : _a.appendChild(iframe);
+                    }
+                });
             });
             // 3. Remove photos and cards
             /*
