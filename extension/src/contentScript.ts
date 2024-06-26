@@ -81,7 +81,12 @@ function replaceDOMElements() {
             processedTweetTexts.add(tweetText);
             // const iframe = buildIframe(PUNKCAM_LINK);
             // tweetText?.appendChild(iframe);
-            const tweetTextLinks = tweetText?.textContent?.match(/https?:\/\/[^\s]+/g) || [];
+            const tweetTextLinks = Array.from(tweetText?.querySelectorAll('a[href]'))
+                .map((el) => el.getAttribute('href'))
+                .filter((link) => link?.startsWith("http")) as string[] || [];
+            console.log('Got tweet text links:', tweetTextLinks);
+            // console.log('Found tweet text:', tweetText.textContent);
+            // const tweetTextLinks = tweetText?.textContent?.match(/https?:\/\/[^\s]+/g) || [];
             tweetTextLinks.filter(Boolean).forEach((tweetLink) => {
                 console.log('Found tweet link:', tweetLink);
                 // fetchMetatags(tweetLink).then((metaTags) => {

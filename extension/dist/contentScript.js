@@ -81,7 +81,6 @@ const processedTweetTexts = new Set();
 function replaceDOMElements() {
     const tweets = document.querySelectorAll('[data-testid="tweet"]');
     tweets.forEach((tweet) => {
-        var _a;
         const tweetText = tweet.querySelector('[data-testid="tweetText"]');
         if (tweetText && !processedTweetTexts.has(tweetText)) {
             tweetText.style.overflowX = 'visible';
@@ -89,7 +88,12 @@ function replaceDOMElements() {
             processedTweetTexts.add(tweetText);
             // const iframe = buildIframe(PUNKCAM_LINK);
             // tweetText?.appendChild(iframe);
-            const tweetTextLinks = ((_a = tweetText === null || tweetText === void 0 ? void 0 : tweetText.textContent) === null || _a === void 0 ? void 0 : _a.match(/https?:\/\/[^\s]+/g)) || [];
+            const tweetTextLinks = Array.from(tweetText === null || tweetText === void 0 ? void 0 : tweetText.querySelectorAll('a[href]'))
+                .map((el) => el.getAttribute('href'))
+                .filter((link) => link === null || link === void 0 ? void 0 : link.startsWith("http")) || [];
+            console.log('Got tweet text links:', tweetTextLinks);
+            // console.log('Found tweet text:', tweetText.textContent);
+            // const tweetTextLinks = tweetText?.textContent?.match(/https?:\/\/[^\s]+/g) || [];
             tweetTextLinks.filter(Boolean).forEach((tweetLink) => {
                 var _a;
                 console.log('Found tweet link:', tweetLink);
