@@ -20,7 +20,7 @@
     border-radius: 16px;
     overflow: hidden;
     outline: #ff94ff solid 1px;
-    box-shadow: 0 0 20px #ff5cff;
+    box-shadow: 0 0 10px #ff5cff;
     margin-top: 15px;
     margin-bottom: 5px;
 }

@@ -1,49 +1,6 @@
 const CORS_PROXY = 'https://punkcam-cors-anywhere-99a09af4e7c4.herokuapp.com/';
 const PUNKCAM_LINK = "https://labs.punk.cam/embed?url=https%3A%2F%2Fpunkmaker.xyz%2Fapi%2Fog%3Fp%3D002-061-048-050%26mode%3Drender%26background%3D0";
-
-function parseMetaString(metaString: string): { [key: string]: string } {
-    if (!metaString) return {};
-    // Define a regular expression to match key-value pairs
-    const regex = /(\w+)="([^"]+)"/g;
-    const result: { [key: string]: string } = {};
-    let match;
-
-    // Iterate through all matches
-    while ((match = regex.exec(metaString)) !== null) {
-        const key = match[1];
-        const value = match[2];
-        result[key] = value;
-    }
-
-    return result;
-}
-
-async function fetchMetatags(src: string) {
-    const response = await fetch(src, {
-        mode: 'cors',
-        headers: {
-            'Access-Control-Allow-Origin': '*'
-        }
-    });
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
-    }
-    const htmlText = await response.text();
-
-    // Parse the HTML content
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlText, 'text/html');
-
-    // Extract meta tags
-    const metaElements = Array.from(doc.querySelectorAll('meta'));
-    const elements = metaElements?.map((e: any) => parseMetaString(e.rawAttrs)).reduce((acc: any, curr: any) => ({
-        ...acc,
-        ...(curr.name ? {
-            [curr.name]: curr.content
-        } : {})
-    }), {});
-    return elements;
-}
+const RENDERING_DOMAIN = "https://flinks-amber.vercel.app";
 
 function buildIframe(src: string) {
     const iframe = document.createElement('iframe');
@@ -69,6 +26,34 @@ function buildIframe(src: string) {
     return aspectRatioContainer;
 }
 
+function extractTweetLinks(tweet: Element) {
+
+    // 1. Fetch links within text
+    const tweetText = tweet.querySelector('[data-testid="tweetText"]') as HTMLElement;
+    const tweetTextLinks = Array.from(tweetText?.querySelectorAll('a[href]') || [])
+        .map((el) => el.getAttribute('href'))
+        .filter((link) => link?.startsWith("https://"))
+        .filter(Boolean) as string[] || [];
+
+    // 2. Fetch links within cards
+    const tweetCardsLinks = Array.from(tweet.querySelectorAll('[data-testid="card.wrapper"]'))
+        .map(el => el.querySelector('a[href]')?.getAttribute('href'))
+        .filter((link) => link?.startsWith("https://"))
+        .filter(Boolean) as string[] || [];
+
+    return [...tweetTextLinks, ...tweetCardsLinks];
+}
+
+function findFirstParentWithAttribute(element: HTMLElement | null, attribute: string) {
+    while (element) {
+        if (element.hasAttribute(attribute)) {
+            return element;
+        }
+        element = element.parentElement;
+    }
+    return null; // Return null if no parent with the attribute is found
+}
+
 const processedTweetTexts = new Set<Element>();
 
 function replaceDOMElements() {
@@ -76,70 +61,42 @@ function replaceDOMElements() {
     tweets.forEach((tweet) => {
         const tweetText = tweet.querySelector('[data-testid="tweetText"]') as HTMLElement;
         if (tweetText && !processedTweetTexts.has(tweetText)) {
+
+            processedTweetTexts.add(tweetText);
             tweetText.style.overflowX = 'visible';
             tweetText.style.overflowY = 'visible';
-            processedTweetTexts.add(tweetText);
-            // const iframe = buildIframe(PUNKCAM_LINK);
-            // tweetText?.appendChild(iframe);
-            const tweetTextLinks = Array.from(tweetText?.querySelectorAll('a[href]'))
-                .map((el) => el.getAttribute('href'))
-                .filter((link) => link?.startsWith("http")) as string[] || [];
-            console.log('Got tweet text links:', tweetTextLinks);
-            // console.log('Found tweet text:', tweetText.textContent);
-            // const tweetTextLinks = tweetText?.textContent?.match(/https?:\/\/[^\s]+/g) || [];
-            tweetTextLinks.filter(Boolean).forEach((tweetLink) => {
-                console.log('Found tweet link:', tweetLink);
-                // fetchMetatags(tweetLink).then((metaTags) => {
-                //     console.log('Meta tags:', tweetLink, metaTags);
-                // });
-                const iframe = buildIframe("https://flinks-amber.vercel.app/frame?url=" + encodeURIComponent(tweetLink));
-                // const iframe = buildIframe(tweetLink);
-                // const iframe = buildIframe(PUNKCAM_LINK);
-                // const iframe = buildIframe("http://localhost:3000/frame");
+
+            const tweetLinks = extractTweetLinks(tweet);
+
+            tweetLinks.filter(Boolean).forEach((tweetLink) => {
+                const iframe = buildIframe(RENDERING_DOMAIN + "/frame?url=" + encodeURIComponent(tweetLink));
                 tweetText?.parentElement?.appendChild(iframe);
             });
-            if (tweetTextLinks.length > 0) {
-                const tweetPhotos = tweet.querySelectorAll('[data-testid="tweetPhoto"]');
-                tweetPhotos.forEach(tweetPhoto => {
-                    if (tweetPhoto instanceof HTMLElement) {
-                        tweetPhoto.remove();
-                    }
-                });
+
+            // 3. Remove photos and cards
+            if (tweetLinks.length > 0) {
                 const tweetCards = tweet.querySelectorAll('[data-testid="card.wrapper"]');
                 tweetCards.forEach(tweetCard => {
-                    if (tweetCard instanceof HTMLElement) {
-                        tweetCard.remove();
-                    }
+                    tweetCard.remove?.();
+                });
+                const tweetPhotos = tweet.querySelectorAll('[data-testid="tweetPhoto"]');
+                tweetPhotos.forEach(tweetPhoto => {
+                    const photoContainer = findFirstParentWithAttribute(tweetPhoto as HTMLElement, "aria-labelledby");
+                    photoContainer?.remove?.();
                 });
             }
         }
-
-        /*
-        const tweetCards = tweet.querySelectorAll('[data-testid="card.wrapper"]'); // Select elements with data-testid="card.wrapper"
-        tweetCards.forEach(tweetCard => {
-            if (tweetCard instanceof HTMLElement) {
-                const link = tweetCard.querySelector('a[href]');
-                const href = link?.getAttribute('href');
-                const img = tweetCard.querySelector('img[src]');
-                const src = img?.getAttribute('src');
-                if (src && img && href) {
-                    while (tweetCard.firstChild) {
-                        tweetCard.removeChild(tweetCard.firstChild);
-                    }
-                    const iframe = buildIframe(PUNKCAM_LINK);
-                    tweetCard.style.overflow = 'hidden';
-                    tweetCard.appendChild(iframe);
-                    console.log('Replaced tweetCard content with iframe:', tweetCard);
-                }
-
-            }
-        });
-        */
     });
 }
 
+// Ensure the function is called on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', replaceDOMElements);
 
-// Observe changes in the DOM and replace elements dynamically:
+// Also listen to the window load event to handle additional cases
+window.addEventListener('load', replaceDOMElements);
+
+// Observe changes in the DOM and replace elements dynamically
 const observer = new MutationObserver(replaceDOMElements);
+
+// Start observing the document body for changes
 observer.observe(document.body, { childList: true, subtree: true });
