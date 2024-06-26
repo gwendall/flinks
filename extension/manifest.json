@@ -14,6 +14,9 @@
             ],
             "js": [
                 "dist/contentScript.js"
+            ],
+            "css": [
+                "src/styles.css"
             ]
         }
     ]

@@ -47,52 +47,20 @@ async function fetchMetatags(src: string) {
 
 function buildIframe(src: string) {
     const iframe = document.createElement('iframe');
+    iframe.classList.add('flinks-iframe');
     iframe.src = src;
-    iframe.style.boxSizing = 'border-box';
-    iframe.style.position = 'absolute';
-    iframe.style.top = '0';
-    iframe.style.left = '0';
-    iframe.style.width = '100%';
-    iframe.style.height = '100%';
-    iframe.style.border = 'none';
-    iframe.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
     iframe.allow = 'camera;microphone';
     // @ts-ignore
     iframe.allowusermedia = 'true';
-    iframe.style.opacity = '0';
-    iframe.style.transition = 'opacity 300ms ease-in-out';
     iframe.addEventListener('load', () => {
         iframe.style.opacity = '1'; // Fade in
     });
 
     const aspectRatioContainer = document.createElement('div');
-    aspectRatioContainer.style.boxSizing = 'border-box';
-    aspectRatioContainer.style.position = 'relative';
-    aspectRatioContainer.style.width = '100%';
-    aspectRatioContainer.style.paddingTop = '100%';
-    // aspectRatioContainer.style.paddingTop = Math.round((12 / 9) * 100) + '%'; // 16:9 aspect ratio (9/16 = 0.5625)
-    aspectRatioContainer.style.border = '1px solid rgba(0, 0, 0, 0.1)';
-    aspectRatioContainer.style.borderRadius = '16px';
-    aspectRatioContainer.style.overflow = 'hidden';
-    aspectRatioContainer.style.outline = '#ff94ff solid 1px';
-    aspectRatioContainer.style.boxShadow = '0 0 20px #ff5cff';
-    aspectRatioContainer.style.marginTop = '15px';
-    aspectRatioContainer.style.marginBottom = '5px';
+    aspectRatioContainer.classList.add('flinks-aspect-ratio-container');
 
     const loadingContainer = document.createElement('div');
-    loadingContainer.style.position = 'absolute';
-    loadingContainer.style.top = '0';
-    loadingContainer.style.left = '0';
-    loadingContainer.style.width = '100%';
-    loadingContainer.style.height = '100%';
-    loadingContainer.style.display = 'flex';
-    loadingContainer.style.flexDirection = 'column';
-    loadingContainer.style.alignItems = 'center';
-    loadingContainer.style.justifyContent = 'center';
-    loadingContainer.style.textTransform = 'uppercase';
-    loadingContainer.style.fontSize = '1rem';
-    loadingContainer.style.fontWeight = 'bold';
-    loadingContainer.style.color = 'rgba(255, 255, 255, 0.5)';
+    loadingContainer.classList.add('flinks-loading-container');
     loadingContainer.textContent = 'Loading frame...';
 
     aspectRatioContainer.appendChild(loadingContainer);
@@ -119,10 +87,11 @@ function replaceDOMElements() {
                 // fetchMetatags(tweetLink).then((metaTags) => {
                 //     console.log('Meta tags:', tweetLink, metaTags);
                 // });
-                const iframe = buildIframe("https://eminent-pelican-hugely.ngrok-free.app/frame");
-                // const iframe = buildIframe(tweetLink);
+                // const iframe = buildIframe("https://flinks-amber.vercel.app/frame");
+                const iframe = buildIframe(tweetLink);
                 // const iframe = buildIframe(PUNKCAM_LINK);
-                tweetText?.appendChild(iframe);
+                // const iframe = buildIframe("http://localhost:3000/frame");
+                tweetText?.parentElement?.appendChild(iframe);
             });
             if (tweetTextLinks.length > 0) {
                 const tweetPhotos = tweet.querySelectorAll('[data-testid="tweetPhoto"]');
@@ -131,13 +100,13 @@ function replaceDOMElements() {
                         tweetPhoto.remove();
                     }
                 });
+                const tweetCards = tweet.querySelectorAll('[data-testid="card.wrapper"]');
+                tweetCards.forEach(tweetCard => {
+                    if (tweetCard instanceof HTMLElement) {
+                        tweetCard.remove();
+                    }
+                });
             }
-            // const tweetCards = tweet.querySelectorAll('[data-testid="card.wrapper"]');
-            // tweetCards.forEach(tweetCard => {
-            //     if (tweetCard instanceof HTMLElement) {
-            //         tweetCard.remove();
-            //     }
-            // });
         }
 
         /*

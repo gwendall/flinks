@@ -1,33 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import styled, { createGlobalStyle } from "styled-components"
-
-const GlobalStyle = createGlobalStyle`
-    html, body, #__next {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        width: 100%;
-    }
-    body {
-        display: flex;
-        flex-direction: column;
-    }
-    * {
-        box-sizing: border-box;
-    }
-`;
-
-const PageContainer = styled.div`
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    height: 100svh;
-    width: 100vw;
-    background-color: black;
-    color: white;
-`;
+import EmbedPageContainer from "@/components/EmbedPageContainer";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { Frame } from "frames.js";
+import { useSearchParams } from "next/navigation";
+import styled from "styled-components"
 
 const ImageContainer = styled.div`
     flex: 1;
@@ -73,24 +52,49 @@ const Button = styled.button`
     }
 `;
 
-const FRAME_IMG = "https://proxy.wrpcd.net/?url=https%3A%2F%2Fhighlight-creator-assets.highlight.xyz%2Fmain%2Fimage%2F085fb994-dc1d-4bc3-9c9e-7ab06c024935.gif%3Fd%3D1000x1000&s=5ee5ebc08a5bcf2111c4684a113795152579ca047ea387d816bb2c7226df0e23";
-
 export default function FramePage() {
+    const searchParams = useSearchParams();
+    const url = searchParams.get('url') as string;
+    const { data, isLoading } = useQuery({
+        queryKey: ["frame", url],
+        queryFn: async () => {
+            const response = await axios.get('/api/frames', {
+                params: {
+                    url
+                }
+            });
+            return response.data as {
+                status: string;
+                frame: Frame;
+            };
+        },
+        enabled: !!url,
+    });
     return (
-        <>
-            <GlobalStyle />
-            <PageContainer>
-                <ImageContainer>
-                    <img src={FRAME_IMG} alt="frame-img" />
-                </ImageContainer>
-                <ButtonsContainer>
-                    <ButtonsInner>
-                        <Button>Mint</Button>
-                        <Button>Explore</Button>
-                        <Button>Eat</Button>
-                    </ButtonsInner>
-                </ButtonsContainer>
-            </PageContainer>
-        </>
-    )
+        <EmbedPageContainer>
+            {/* <pre>{JSON.stringify({ url, data, isLoading }, null, 2)}</pre> */}
+            {isLoading ? (
+                <p>Loading...</p>
+            ) : !data || data?.status !== 'success' ? (
+                <div>This is not a valid frame</div>
+            ) : data.frame ? (
+                <>
+                    <ImageContainer>
+                        <img src={data.frame.image} alt="frame-img" />
+                    </ImageContainer>
+                    <ButtonsContainer>
+                        <ButtonsInner>
+                            {data.frame.buttons?.map((button, index) => (
+                                <Button key={`btn-${button.label}-${index}`}>
+                                    {button.label}
+                                </Button>
+                            ))}
+                        </ButtonsInner>
+                    </ButtonsContainer>
+                </>
+            ) : (
+                <div>Link data not found</div>
+            )}
+        </EmbedPageContainer>
+    );
 }
