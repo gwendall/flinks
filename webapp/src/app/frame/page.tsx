@@ -26,11 +26,15 @@ const ButtonsContainer = styled.div`
     width: 100%;
 `;
 
+const buttonsGap = 10;
+
 const ButtonsInner = styled.div`
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    margin: 10px;
-    gap: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: ${buttonsGap}px;
+    padding: ${buttonsGap}px;
+    width: 100%;
 `;
 
 const Button = styled.button`
@@ -49,6 +53,11 @@ const Button = styled.button`
         &:hover {
             background-color: #ffffff3a;
         }
+    }
+    flex: 1;
+    min-width: calc(50% - ${buttonsGap / 2}px); /* Ensures two buttons fit in a row with a gap */
+    &:nth-child(2n+1):last-child {
+        flex: 1 1 100%; /* Full width if it's the only button in a row */
     }
 `;
 
