@@ -6,7 +6,7 @@ import { Button } from "@/components/FrameRenderer";
 import React from "react"
 import styled, { createGlobalStyle } from "styled-components";
 // import Video from 'next-video';
-import landingVideo from '/videos/landing2.mp4';
+import landingVideo from '/videos/flinks2.mp4';
 // import BackgroundVideo from "next-video/background-video";
 import NextVideo from "next-video";
 // import { m } from "framer-motion";
