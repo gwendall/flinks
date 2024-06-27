@@ -122,6 +122,7 @@ const VideoContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 10px;
     img {
         object-fit: cover;
         object-position: center;
