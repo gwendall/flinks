@@ -7,12 +7,12 @@ window.addEventListener('message', function (event) {
         }
         window.open(event.data.url, '_blank');
     } else if (event.data.type === 'flinkMint') {
-        if (!confirm('Minting through Flinks is coming soon. In the meantime, do it here: ' + event.data.url)) {
+        if (!confirm('Minting through Flinks is coming soon. In the meantime, you can mint here: ' + event.data.url)) {
             return;
         }
         window.open(event.data.url, '_blank');
     } else if (event.data.type === 'flinkTx') {
-        if (!confirm('Transactions through Flinks are coming soon. In the meantime, do it here: ' + event.data.url)) {
+        if (!confirm('Transactions through Flinks are coming soon. In the meantime, you can do your transaction here: ' + event.data.url)) {
             return;
         }
         window.open(event.data.url, '_blank');
