@@ -76,7 +76,7 @@ const PageGlobalStyle = createGlobalStyle`
     }
 `;
 
-const CHROMESTORE_LINK = "";
+const CHROMESTORE_LINK = "https://chromewebstore.google.com/detail/flinks/agmjmokodkbfakfnncbibecaaaojcbmj?authuser=1&hl=en";
 
 const StyledButton = styled(Button)`
     text-decoration: none;
