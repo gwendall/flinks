@@ -1,6 +1,6 @@
+import { GetFrameResult } from "@frames.js/render";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { Frame } from "frames.js";
 
 export default function useFrameData(url: string) {
     return useQuery({
@@ -11,10 +11,7 @@ export default function useFrameData(url: string) {
                     url
                 }
             });
-            return response.data as {
-                status: string;
-                frame: Frame;
-            };
+            return response.data as GetFrameResult;
         },
         enabled: !!url,
     });
