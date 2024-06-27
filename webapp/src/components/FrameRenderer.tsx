@@ -136,11 +136,10 @@ export function FrameRenderer({
     allowPartialFrame,
     enableImageDebugging,
 }: FrameRendererProps): React.JSX.Element | null {
-    const [isImageLoading, setIsImageLoading] = React.useState<boolean>(true);
     const currentFrame = frameState.currentFrameStackItem;
+    const [isImageError, setIsImageError] = React.useState<boolean>(false);
+    const [isImageLoading, setIsImageLoading] = React.useState<boolean>(true);
     const isLoading = currentFrame?.status === "pending" || isImageLoading;
-    const [imageError, setImageError] = React.useState<boolean>(false);
-
     if (!frameState.homeframeUrl) {
         return (
             <StatusText>Missing frame url</StatusText>
@@ -195,8 +194,8 @@ export function FrameRenderer({
                         key={debugImage ?? frame.image}
                         alt="Frame image"
                         style={{
-                            filter: isLoading ? "blur(4px)" : undefined,
-                            opacity: imageError ? 0 : 1
+                            filter: isImageLoading ? "blur(4px)" : undefined,
+                            opacity: isImageError ? 0 : 1
                         }}
                         onLoadStart={() => {
                             setIsImageLoading(true);
@@ -206,12 +205,15 @@ export function FrameRenderer({
                         }}
                         onError={() => {
                             setIsImageLoading(false);
-                            setImageError(true);
+                            setIsImageError(true);
                         }}
                     />
                 )}
-                {!!frame && imageError ? (
+                {!!frame && isImageError ? (
                     <StatusText>{frame.title}</StatusText>
+                ) : null}
+                {!!frame && isImageLoading ? (
+                    <StatusText>Loading image...</StatusText>
                 ) : null}
             </ImageContainer>
             {!!frame ? (

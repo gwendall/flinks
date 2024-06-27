@@ -4,6 +4,10 @@ const RENDERING_DOMAIN = "https://flinks.gg";
 
 window.addEventListener('message', function (event) {
     if (event.data.type === 'openNewFlinkUrl') {
+        // show a confirmation dialog first
+        if (!confirm('You are about to be redirected to ' + event.data.url)) {
+            return;
+        }
         window.open(event.data.url, '_blank');
     }
 });

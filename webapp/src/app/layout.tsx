@@ -1,12 +1,13 @@
 "use client";
 
 import { Inter } from "next/font/google";
-import { NeynarContextProvider, Theme } from "@neynar/react";
 import StyledComponentsRegistry from "@/lib/registry";
 import GlobalStyle from "@/components/GlobalStyle";
 import ReactQueryProvider from "@/components/ReactQueryProvider";
-import "./globals.css";
 import React from "react";
+import NeynarContainer from "@/components/NeynarContainer";
+import "./globals.css";
+import "@neynar/react/dist/style.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,20 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <NeynarContextProvider
-          settings={{
-            clientId: process.env.NEXT_PUBLIC_NEYNAR_CLIENT_ID || "",
-            defaultTheme: Theme.Dark,
-            eventsCallbacks: {
-              onAuthSuccess: (...args) => {
-                console.log("Auth success", args);
-              },
-              onSignout(...args) {
-                console.log("Signout", args);
-              },
-            },
-          }}
-        >
+        <NeynarContainer>
           <ReactQueryProvider>
             <StyledComponentsRegistry>
               <GlobalStyle />
@@ -40,7 +28,7 @@ export default function RootLayout({
               </React.Suspense>
             </StyledComponentsRegistry>
           </ReactQueryProvider>
-        </NeynarContextProvider>
+        </NeynarContainer>
       </body>
     </html>
   );

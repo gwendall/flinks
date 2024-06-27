@@ -48,6 +48,7 @@ export default function FrameClientPage() {
                 frameState={frameState}
                 FrameImage={FrameImageNext}
                 enableImageDebugging
+                allowPartialFrame
             />
         </FrameContainer>
     )
