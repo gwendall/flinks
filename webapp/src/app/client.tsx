@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/FrameRenderer";
 import { NeynarAuthButton } from "@neynar/react";
 import { useRouter } from "next/navigation";
 import React from "react"
@@ -21,7 +22,33 @@ const LandingBackground = styled.div`
     pointer-events: none;
 `;
 
-export default function HomePageClient() {
+const PageContainer = styled.div`
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 15px;
+    min-height: 100svh;
+`;
+
+const Title = styled.h1`
+    font-size: 4rem;
+    margin: 0;
+    font-weight: bold;
+    white-space: normal;
+    overflow-wrap: normal;
+    background-image: linear-gradient(90deg, #ffbf66, #00b4fb, #ff00ff, #000000);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: white;
+    background-size: 200% 200%;
+    animation: animateTextColor 5s ease infinite;
+    width: fit-content;
+`;
+
+function FrameNavForm() {
     const router = useRouter();
     const [input, setInput] = React.useState<string>('');
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -32,16 +59,38 @@ export default function HomePageClient() {
         router.push(`/frames?url=${encodeURIComponent(input)}`);
     }
     return (
+        <form onSubmit={handleSubmit}>
+            <input type="text" value={input} onChange={handleChange} placeholder="Enter a frame url" />
+            <button type="submit">Submit</button>
+        </form>
+    );
+}
+
+export default function HomePageClient() {
+    return (
         <>
             <LandingBackground />
-            <div>
-                <h1>Flinks</h1>
-                <form onSubmit={handleSubmit}>
-                    <input type="text" value={input} onChange={handleChange} placeholder="Enter a frame url" />
-                    <button type="submit">Submit</button>
-                </form>
-                <NeynarAuthButton />
-            </div>
+            <PageContainer>
+                <Title>flinks</Title>
+                <div style={{
+                    fontWeight: 'bold',
+                    marginBottom: 15,
+                }}>
+                    Farcaster Frames, across the web.
+                </div>
+                {/* <NeynarAuthButton /> */}
+                <Button style={{
+                    backgroundColor: '#ff00ff',
+                    color: 'white',
+                    fontWeight: 'bold',
+                    fontSize: '1.1rem',
+                    flex: 0,
+                    paddingLeft: 15,
+                    paddingRight: 15,
+                }}>
+                    Install Flinks for Chrome
+                </Button>
+            </PageContainer>
         </>
     )
 }

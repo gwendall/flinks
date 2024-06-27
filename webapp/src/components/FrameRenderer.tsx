@@ -70,7 +70,7 @@ const ButtonsInner = styled.div`
     width: 100%;
 `;
 
-const Button = styled.button`
+export const Button = styled.button`
     all: unset;
     box-sizing: border-box;
     padding: 10px;
@@ -299,17 +299,21 @@ export function FrameRenderer({
                                         opacity: isLoading ? 0.5 : 1,
                                     }}
                                     onClick={() => {
-                                        if (isInIframe) {
-                                            if (frameButton.action === 'link') {
-                                                window.parent.postMessage({
-                                                    type: 'openNewFlinkUrl',
-                                                    url: frameButton.target,
-                                                }, "*");
-                                            } else if (frameButton.action === 'mint') {
-                                                window.alert('Minting is coming soon.');
-                                            } else if (frameButton.action === 'tx') {
-                                                window.alert('Transactions are coming soon.');
-                                            }
+                                        if (isInIframe && frameButton.action === 'link') {
+                                            window.parent.postMessage({
+                                                type: 'openNewFlinkUrl',
+                                                url: frameButton.target,
+                                            }, "*");
+                                        } else if (isInIframe && frameButton.action === 'mint') {
+                                            window.parent.postMessage({
+                                                type: 'flinkMint',
+                                                url: frameState.homeframeUrl,
+                                            }, "*");
+                                        } else if (isInIframe && frameButton.action === 'tx') {
+                                            window.parent.postMessage({
+                                                type: 'flinkTx',
+                                                url: frameState.homeframeUrl,
+                                            }, "*");
                                         } else {
                                             Promise.resolve(
                                                 frameState.onButtonPress(

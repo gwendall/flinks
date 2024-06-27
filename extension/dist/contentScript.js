@@ -21,8 +21,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 const RENDERING_DOMAIN = "https://flinks.gg";
 window.addEventListener('message', function (event) {
     if (event.data.type === 'openNewFlinkUrl') {
-        // show a confirmation dialog first
         if (!confirm('You are about to be redirected to ' + event.data.url)) {
+            return;
+        }
+        window.open(event.data.url, '_blank');
+    }
+    else if (event.data.type === 'flinkMint') {
+        if (!confirm('Minting through Flinks is coming soon. In the meantime, do it here: ' + event.data.url)) {
+            return;
+        }
+        window.open(event.data.url, '_blank');
+    }
+    else if (event.data.type === 'flinkTx') {
+        if (!confirm('Transactions through Flinks are coming soon. In the meantime, do it here: ' + event.data.url)) {
             return;
         }
         window.open(event.data.url, '_blank');
