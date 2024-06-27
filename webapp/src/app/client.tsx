@@ -49,6 +49,7 @@ const PageContent = styled.div`
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 30px;
     padding: 20px;
+    padding-bottom: 30px;
     backdrop-filter: blur(10px);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 
