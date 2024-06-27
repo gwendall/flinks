@@ -43,14 +43,15 @@ const PageContent = styled.div`
     max-width: 1000px;
     width: 100%;
     background-color: rgba(255, 255, 255, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 30px;
     padding: 20px 30px;
     backdrop-filter: blur(10px);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 `;
 
 const Title = styled.h1`
-    font-size: 4rem;
+    font-size: 3rem;
     margin: 0;
     font-weight: bold;
     white-space: normal;
@@ -91,19 +92,34 @@ const PageGlobalStyle = createGlobalStyle`
 
 export default function HomePageClient() {
     return (
-        <BackgroundVideo src={landingVideo} style={{
-            padding: 0,
-        }}>
+        <>
+            <div style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100vw',
+                height: '100vh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: 10,
+            }}>
+                <div style={{
+                    margin: 10
+                }}>
+                    <BackgroundVideo src={landingVideo} />
+                </div>
+            </div>
             <PageGlobalStyle />
             <LandingBackground />
             <PageContainer>
                 <PageContent>
-                    <Title>flinks</Title>
+                    <Title>Flinks</Title>
                     <div style={{
                         fontWeight: 'bold',
                         marginBottom: 15,
                     }}>
-                        Farcaster Frames, across the web.
+                        Farcaster Frames, in Twitter.
                     </div>
                     {/* <Video src={landingVideo} autoPlay loop muted playsInline /> */}
                     {/* <NeynarAuthButton /> */}
@@ -127,6 +143,6 @@ export default function HomePageClient() {
                     </div>
                 </PageContent>
             </PageContainer>
-        </BackgroundVideo>
+        </>
     )
 }

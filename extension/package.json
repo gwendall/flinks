@@ -1,7 +1,7 @@
 {
-    "name": "my-chrome-extension",
+    "name": "flinks",
     "version": "1.0.0",
-    "description": "Watches for elements in the DOM and replaces them.",
+    "description": "Farcaster Frames, across the web.",
     "scripts": {
         "build": "webpack"
     },

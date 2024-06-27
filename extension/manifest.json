@@ -2,22 +2,27 @@
     "manifest_version": 3,
     "name": "Flinks",
     "version": "1.0",
-    "description": "Interact with Farcaster Frames across the web.",
-    "permissions": [
-        "activeTab",
-        "scripting"
-    ],
+    "description": "Farcaster Frames, across the web.",
+    "icons": {
+        "16": "icons/icon16.png",
+        "32": "icons/icon32.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+    },
+    "permissions": [],
     "content_scripts": [
         {
             "matches": [
-                "<all_urls>"
+                "*://*.x.com/*",
+                "*://*.twitter.com/*"
             ],
             "js": [
                 "dist/contentScript.js"
             ],
             "css": [
                 "src/styles.css"
-            ]
+            ],
+            "run_at": "document_end"
         }
     ]
 }
