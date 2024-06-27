@@ -3,7 +3,7 @@
 import PageContainer from "@/components/PageContainer";
 import Link from "next/link";
 import Markdown from "react-markdown";
-import styled from "styled-components";
+// import styled from "styled-components";
 
 const markdown = `
 # Privacy Policy

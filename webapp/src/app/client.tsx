@@ -10,6 +10,7 @@ import landingVideo from '/videos/landing2.mp4';
 // import BackgroundVideo from "next-video/background-video";
 import NextVideo from "next-video";
 // import { m } from "framer-motion";
+import Markdown from "react-markdown";
 
 const LandingBackground = styled.div`
     position: fixed;
@@ -172,12 +173,9 @@ export default function HomePageClient() {
                                 {label}
                             </StyledLink>
                         ))} */}
-                        <StyledLink
-                            href={"https://warpcast.com/gwendall"}
-                            target={"_blank"}
-                        >
-                            Made by gwendall
-                        </StyledLink>
+                        <Markdown>
+                            {`Made by gwendall ([warpcast](https://warpcast.com/gwendall), [twitter](https://x.com/gwendall))`}
+                        </Markdown>
                     </div>
                 </PageContent>
             </PageContainer>
