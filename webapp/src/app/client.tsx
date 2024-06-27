@@ -3,6 +3,23 @@
 import { NeynarAuthButton } from "@neynar/react";
 import { useRouter } from "next/navigation";
 import React from "react"
+import styled from "styled-components";
+
+const LandingBackground = styled.div`
+    position: absolute;
+    border-radius: inherit;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-size: 100.00px auto;
+    background-image: url(https://framerusercontent.com/images/6VvZoi0nDuDWS0DpB89uJy853W8.png);
+    border: 0;
+    background-repeat: repeat;
+    background-position: left top;
+    z-index: -1;
+    pointer-events: none;
+`;
 
 export default function HomePageClient() {
     const router = useRouter();
@@ -15,13 +32,16 @@ export default function HomePageClient() {
         router.push(`/frames?url=${encodeURIComponent(input)}`);
     }
     return (
-        <div>
-            <h1>Flinks</h1>
-            <form onSubmit={handleSubmit}>
-                <input type="text" value={input} onChange={handleChange} placeholder="Enter a frame url" />
-                <button type="submit">Submit</button>
-            </form>
-            <NeynarAuthButton />
-        </div>
+        <>
+            <LandingBackground />
+            <div>
+                <h1>Flinks</h1>
+                <form onSubmit={handleSubmit}>
+                    <input type="text" value={input} onChange={handleChange} placeholder="Enter a frame url" />
+                    <button type="submit">Submit</button>
+                </form>
+                <NeynarAuthButton />
+            </div>
+        </>
     )
 }

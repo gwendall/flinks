@@ -12,6 +12,12 @@ const GlobalStyle = createGlobalStyle`
     body {
         display: flex;
         flex-direction: column;
+        font-family: "Inter", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 100;
+        font-style: normal;
+        font-variation-settings: "slnt" 0;
+        color: black;
     }
     * {
         box-sizing: border-box;

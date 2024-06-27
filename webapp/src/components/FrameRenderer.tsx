@@ -5,6 +5,8 @@ import type { ImgHTMLAttributes } from "react";
 import type { Frame, FrameButton } from "frames.js";
 import { FrameStackMessage, FrameStackRequestError, FrameState } from "@frames.js/render";
 import { AnimatePresence, motion } from "framer-motion";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/opacity.css";
 
 function getErrorMessageFromFramesStackItem(
     item: FrameStackMessage | FrameStackRequestError
@@ -34,6 +36,22 @@ const ImageContainer = styled.div`
         object-fit: contain;
         transition: filter 200ms ease;
     }
+`;
+
+const FrameImage = styled(LazyLoadImage).attrs({
+    loading: "lazy",
+    effect: "opacity",
+    // decoding: "async",
+    // crossOrigin: "anonymous",
+})`
+    image-rendering: pixelated;
+    vertical-align: bottom;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 `;
 
 const ButtonsContainer = styled.div`
@@ -75,7 +93,11 @@ const Button = styled.button`
     }
 `;
 
-export const StatusText = styled(motion.div)`
+export const StatusText = styled(motion.div).attrs({
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 },
+}) <{ $absolute?: boolean; }>`
     width: 100%;
     height: 100%;
     padding: 15px;
@@ -88,6 +110,15 @@ export const StatusText = styled(motion.div)`
     text-align: center;
     font-size: 1rem;
     font-family: sans-serif;
+    z-index: 1;
+    pointer-events: none;
+    ${({ $absolute }) => $absolute ? `
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;        
+    ` : ''}
 `;
 
 const FrameInputContainer = styled.div`
@@ -185,16 +216,16 @@ export function FrameRenderer({
                 ? currentFrame.request.sourceFrame
                 : undefined;
     }
-    const renderedImage = debugImage ?? frame?.image;
+    const renderedImage = debugImage ?? frame?.image ?? frame?.ogImage;
     return (
-        <AnimatePresence mode="wait">
+        <>
             <ImageContainer
             // key={`image-${frameState.currentFrameStackItem?.url}-${renderedImage}`}
             >
                 {currentFrame.status === "message" ? (
                     <StatusText>{getErrorMessageFromFramesStackItem(currentFrame)}</StatusText>
                 ) : null}
-                <img
+                <FrameImage
                     src={renderedImage}
                     key={`actions-${frameState.currentFrameStackItem?.url}-${renderedImage}`}
                     alt="Frame image"
@@ -214,13 +245,19 @@ export function FrameRenderer({
                     }}
                 />
                 {!!frame && isImageError ? (
-                    <StatusText>{frame.title}</StatusText>
+                    <StatusText $absolute key={`error-${frame.title}`}>
+                        {frame.title}
+                    </StatusText>
                 ) : null}
                 {!!frame && isImageLoading ? (
-                    <StatusText>Loading image...</StatusText>
+                    <StatusText $absolute key={`img-loading-${frame.title}`}>
+                        Loading image
+                    </StatusText>
                 ) : null}
                 {currentFrame.status === "pending" ? (
-                    <StatusText>Loading next frame</StatusText>
+                    <StatusText $absolute key={`next-${frame?.title}`}>
+                        Loading next frame
+                    </StatusText>
                 ) : null}
             </ImageContainer>
             <ActionsContainer
@@ -273,7 +310,7 @@ export function FrameRenderer({
                                         }
                                     }}
                                     // eslint-disable-next-line react/no-array-index-key -- this is fine
-                                    key={index}
+                                    key={`button-${index}`}
                                 >
                                     {frameButton.action === "mint" ? `⬗ ` : ""}
                                     {frameButton.label}
@@ -303,6 +340,6 @@ export function FrameRenderer({
                     </ButtonsContainer>
                 ) : null}
             </ActionsContainer>
-        </AnimatePresence>
+        </>
     );
 }
