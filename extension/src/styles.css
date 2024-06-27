@@ -17,7 +17,7 @@
     width: 100%;
     padding-top: 100%;
     border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 16px;
+    border-radius: 5px;
     overflow: hidden;
     outline: #ff94ff solid 1px;
     box-shadow: 0 0 10px #ff5cff;
@@ -52,18 +52,36 @@
 }
 
 .flinks-checking-text {
-    height: auto !important;
-    white-space: normal !important;
-    overflow-wrap: normal !important;
-    background-image: linear-gradient(90deg, #ffbf66, #00b4fb, #ff00ff) !important;
-    -webkit-background-clip: text !important;
-    background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    color: white !important;
-    background-size: 200% 200% !important;
-    animation: animateTextColor 2s ease infinite !important;
-    width: fit-content !important;
-    position: relative !important;
-    font-weight: bold !important;
-    margin-top: 10px !important;
+    all: inherit;
+    font-family: sans-serif;
+    height: auto;
+    white-space: normal;
+    overflow-wrap: normal;
+    background-image: linear-gradient(90deg, #ffbf66, #00b4fb, #ff00ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: white;
+    background-size: 200% 200%;
+    animation: animateTextColor 2s ease infinite;
+    width: fit-content;
+    position: relative;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.flinks-iframe-link {
+    all: inherit;
+    font-family: sans-serif;
+    margin-left: auto;
+    text-align: right;
+    margin-top: 5px;
+    padding: 3px 0;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.flinks-iframe-link:hover {
+    text-decoration: underline;
 }

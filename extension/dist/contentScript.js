@@ -28,15 +28,7 @@ window.addEventListener('message', function (event) {
         window.open(event.data.url, '_blank');
     }
 });
-function copyStyles(sourceElement, targetElement) {
-    var sourceStyles = window.getComputedStyle(sourceElement);
-    for (var i = 0; i < sourceStyles.length; i++) {
-        var styleName = sourceStyles[i];
-        targetElement.style[styleName] = sourceStyles.getPropertyValue(styleName);
-    }
-}
 function buildIframe(src, frameLink) {
-    console.log('Building iframe with src', src, 'and frameLink', frameLink);
     const iframe = document.createElement('iframe');
     iframe.classList.add('flinks-iframe');
     iframe.setAttribute('data-url', src);
@@ -59,7 +51,7 @@ function buildIframe(src, frameLink) {
     iframeLink.classList.add('flinks-iframe-link');
     iframeLink.href = frameLink;
     iframeLink.target = '_blank';
-    iframeLink.textContent = 'View full frame';
+    iframeLink.textContent = new URL(frameLink).hostname;
     iframeContainer.appendChild(iframeLink);
     return iframeContainer;
 }
@@ -89,7 +81,6 @@ function findFirstParentWithAttribute(element, attribute) {
 const processedTweetTexts = new Set();
 function handleTweet(tweet) {
     const tweetText = tweet.querySelector('[data-testid="tweetText"]');
-    console.log('Searching for tweetText', tweetText);
     // if (!tweetText || processedTweetTexts.has(tweetText)) return;
     if (!tweetText)
         return;
@@ -97,19 +88,16 @@ function handleTweet(tweet) {
     tweetText.style.overflowX = 'visible';
     tweetText.style.overflowY = 'visible';
     const tweetLinks = extractTweetLinks(tweet);
-    console.log('Extracted tweet links', tweetLinks);
     tweetLinks.forEach((tweetLink) => __awaiter(this, void 0, void 0, function* () {
         var _a;
         const loadingText = document.createElement('div');
         loadingText.classList.add('flinks-checking-text');
         loadingText.textContent = 'Looking for frame...';
-        copyStyles(tweetText, loadingText);
         (_a = tweetText === null || tweetText === void 0 ? void 0 : tweetText.parentElement) === null || _a === void 0 ? void 0 : _a.appendChild(loadingText);
         yield fetch(RENDERING_DOMAIN + "/api/frames?url=" + encodeURIComponent(tweetLink))
             .then((response) => response.json())
             .then((response) => {
             var _a, _b, _c, _d;
-            console.log('Frame response', response);
             const existingIframe = tweetText === null || tweetText === void 0 ? void 0 : tweetText.querySelector(`iframe.flinks-iframe[data-url="${tweetLink}"]`);
             if (((_a = response.frameData) === null || _a === void 0 ? void 0 : _a.status) === 'success' && ((_b = response.frameData) === null || _b === void 0 ? void 0 : _b.frame) && !existingIframe) {
                 const iframe = buildIframe(RENDERING_DOMAIN + "/frames?url=" + encodeURIComponent(tweetLink), response.url);
@@ -160,10 +148,8 @@ function handleNewTweets(mutationsList) {
     for (const mutation of mutationsList) {
         if (mutation.type === 'childList') {
             mutation.addedNodes.forEach(node => {
-                console.log('Added node......', node);
                 if (node.nodeType === 1) { // Ensure the added node is an element
                     const element = node;
-                    console.log('new node', element);
                     if (element.matches('[data-testid="tweet"]') && !element.hasAttribute('data-processed')) {
                         handleTweet(element);
                         element.setAttribute('data-processed', 'true');
@@ -175,9 +161,7 @@ function handleNewTweets(mutationsList) {
                     });
                     // Handle new card wrapper elements within the document
                     element.querySelectorAll('[data-testid="card.wrapper"]').forEach(cardNode => {
-                        console.log('new card.wrapper', cardNode);
                         const parentTweet = cardNode.closest('[data-testid="tweet"]');
-                        console.log('new card.wrapper parent tweet', parentTweet);
                         if (parentTweet && !parentTweet.hasAttribute('data-processed')) {
                             handleTweet(parentTweet);
                             parentTweet.setAttribute('data-processed', 'true');
