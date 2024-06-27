@@ -163,6 +163,10 @@ export default function HomePageClient() {
                         Install Flinks for Chrome
                     </StyledButton>
                     <LinksRow>
+                        <Markdown>
+                            {`Made by gwendall ([warpcast](https://warpcast.com/gwendall), [twitter](https://x.com/gwendall))`}
+                        </Markdown>
+                        <span style={{ margin: "0 5px" }}>-</span>
                         {[
                             // {
                             //     label: 'Privacy',
@@ -173,7 +177,7 @@ export default function HomePageClient() {
                             //     href: '/support',
                             // },
                             {
-                                label: 'Codebase',
+                                label: 'Github repo',
                                 href: 'https://github.com/gwendall/flinks',
                                 external: true,
                             }
@@ -194,10 +198,6 @@ export default function HomePageClient() {
                                 {label}
                             </a>
                         ))}
-                        <span style={{ margin: "0 5px" }}>-</span>
-                        <Markdown>
-                            {`Made by gwendall ([warpcast](https://warpcast.com/gwendall), [twitter](https://x.com/gwendall))`}
-                        </Markdown>
                     </LinksRow>
                 </PageContent>
             </PageContainer>
