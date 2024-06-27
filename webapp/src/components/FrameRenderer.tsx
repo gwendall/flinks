@@ -126,6 +126,9 @@ type FrameRendererProps = {
     enableImageDebugging?: boolean;
 };
 
+const isBrowser = typeof window !== 'undefined';
+const isInIframe = isBrowser && window.self !== window.top;
+
 /** A UI component only, that should be easy for any app to integrate */
 export function FrameRenderer({
     frameState,
@@ -237,17 +240,24 @@ export function FrameRenderer({
                                             opacity: isLoading ? 0.5 : 1,
                                         }}
                                         onClick={() => {
-                                            Promise.resolve(
-                                                frameState.onButtonPress(
-                                                    // Partial frame could have enough data to handle button press
-                                                    frame as Frame,
-                                                    frameButton,
-                                                    index
-                                                )
-                                            ).catch((e: unknown) => {
-                                                // eslint-disable-next-line no-console -- provide feedback to the user
-                                                console.error(e);
-                                            });
+                                            if (isInIframe && frameButton.action === 'link') {
+                                                window.parent.postMessage({
+                                                    type: 'openNewFlinkUrl',
+                                                    url: frameButton.target,
+                                                }, "*");
+                                            } else {
+                                                Promise.resolve(
+                                                    frameState.onButtonPress(
+                                                        // Partial frame could have enough data to handle button press
+                                                        frame as Frame,
+                                                        frameButton,
+                                                        index
+                                                    )
+                                                ).catch((e: unknown) => {
+                                                    // eslint-disable-next-line no-console -- provide feedback to the user
+                                                    console.error('Error clicking button.', e);
+                                                });
+                                            }
                                         }}
                                         // eslint-disable-next-line react/no-array-index-key -- this is fine
                                         key={index}
