@@ -2162,6 +2162,13 @@ form-data@^4.0.0:
     combined-stream "^1.0.8"
     mime-types "^2.1.12"
 
+framer-motion@^11.2.12:
+  version "11.2.12"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-11.2.12.tgz#ca5c49f8a1c70163cbadabcbd318acdcfea569fb"
+  integrity sha512-lCjkV4nA9rWOy2bhR4RZzkp2xpB++kFmUZ6D44V9VQaxk+JDmbDd5lq+u58DjJIIllE8AZEXp9OG/TyDN4FB/w==
+  dependencies:
+    tslib "^2.4.0"
+
 frames.js@^0.17.1:
   version "0.17.1"
   resolved "https://registry.yarnpkg.com/frames.js/-/frames.js-0.17.1.tgz#e5029eb0eb914e928cd0965d264c9550a5d56136"

@@ -16,6 +16,7 @@
     "@types/fast-html-parser": "^1.0.4",
     "axios": "^1.7.2",
     "fast-html-parser": "^1.0.1",
+    "framer-motion": "^11.2.12",
     "frames.js": "^0.17.1",
     "lodash": "^4.17.21",
     "next": "14.1.4",
