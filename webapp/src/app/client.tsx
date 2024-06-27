@@ -125,6 +125,11 @@ const VideoContainer = styled.div`
     justify-content: center;
     margin-bottom: 10px;
     img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
         object-fit: cover;
         object-position: center;
         transform: scale(1.16);
