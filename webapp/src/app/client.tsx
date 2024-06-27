@@ -149,7 +149,7 @@ export default function HomePageClient() {
                         fontWeight: 'bold',
                         marginBottom: 15,
                     }}>
-                        Farcaster Frames, right in Twitter.
+                        Farcaster Frames, right inside Twitter.
                     </div>
                     {/* <NeynarAuthButton /> */}
                     <StyledButton as="a" href={CHROMESTORE_LINK} style={{
