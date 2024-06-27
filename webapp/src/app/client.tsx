@@ -29,13 +29,12 @@ const LandingBackground = styled.div`
 `;
 
 const PageContainer = styled.div`
-    margin: 50px auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 100svh;
-    padding: 50px 0;
+    padding: 50px 15px;
 `;
 
 const PageContent = styled.div`
@@ -114,6 +113,23 @@ const LinksRow = styled.div`
     }
 `;
 
+const VideoContainer = styled.div`
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 16px;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
+        object-fit: cover;
+        object-position: center;
+        transform: scale(1.16);
+        background-width: 100%;
+    }
+`;
+
 export default function HomePageClient() {
     return (
         <>
@@ -121,10 +137,12 @@ export default function HomePageClient() {
             <LandingBackground />
             <PageContainer>
                 <PageContent>
-                    <StyledNextVideo
-                        src={landingVideo}
-                        poster="/poster.png"
-                    />
+                    <VideoContainer>
+                        <StyledNextVideo
+                            src={landingVideo}
+                            poster="/poster.png"
+                        />
+                    </VideoContainer>
                     <Title>Flinks</Title>
                     <div style={{
                         fontWeight: 'bold',
