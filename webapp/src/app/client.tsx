@@ -91,21 +91,28 @@ const StyledButton = styled(Button)`
     }
 `;
 
-const StyledLink = styled.a`
-    margin: 0 8px;
-    color: rgba(0, 0, 0, 0.5);
-    font-size: 0.9rem;
-    text-decoration: none;
-    @media(hover: hover) {
-        &:hover {
-            text-decoration: underline;
-        }
-    }
-`;
-
 const StyledNextVideo = styled(NextVideo)`
     border-radius: 20px;
     margin-bottom: 15px;
+`;
+
+const LinksRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 0.9rem;
+    a {
+        color: rgba(0, 0, 0, 0.5);
+        text-decoration: none;
+        @media(hover: hover) {
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
 `;
 
 export default function HomePageClient() {
@@ -135,27 +142,21 @@ export default function HomePageClient() {
                     }}>
                         Install Flinks for Chrome
                     </StyledButton>
-                    <div style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginTop: 10,
-                    }}>
-                        {/* {[
-                            {
-                                label: 'Privacy',
-                                href: '/privacy',
-                            },
-                            {
-                                label: 'Support',
-                                href: '/support',
-                            },
+                    <LinksRow>
+                        {[
                             // {
-                            //     label: 'Codebase',
-                            //     href: 'https://github.com/gwendall/flinks',
-                            //     external: true,
-                            // }
+                            //     label: 'Privacy',
+                            //     href: '/privacy',
+                            // },
+                            // {
+                            //     label: 'Support',
+                            //     href: '/support',
+                            // },
+                            {
+                                label: 'Codebase',
+                                href: 'https://github.com/gwendall/flinks',
+                                external: true,
+                            }
                         ].map(({
                             label,
                             href,
@@ -165,18 +166,19 @@ export default function HomePageClient() {
                             href: string;
                             external?: boolean;
                         }) => (
-                            <StyledLink
+                            <a
                                 key={href}
                                 href={href}
                                 target={external ? "_blank" : undefined}
                             >
                                 {label}
-                            </StyledLink>
-                        ))} */}
+                            </a>
+                        ))}
+                        <span style={{ margin: "0 5px" }}>-</span>
                         <Markdown>
                             {`Made by gwendall ([warpcast](https://warpcast.com/gwendall), [twitter](https://x.com/gwendall))`}
                         </Markdown>
-                    </div>
+                    </LinksRow>
                 </PageContent>
             </PageContainer>
         </>
