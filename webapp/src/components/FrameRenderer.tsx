@@ -7,6 +7,7 @@ import { FrameStackMessage, FrameStackRequestError, FrameState } from "@frames.j
 import { AnimatePresence, motion } from "framer-motion";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/opacity.css";
+import ExternalLink from "./ExternalLink";
 
 function getErrorMessageFromFramesStackItem(
     item: FrameStackMessage | FrameStackRequestError
@@ -219,47 +220,55 @@ export function FrameRenderer({
     const renderedImage = debugImage ?? frame?.image ?? frame?.ogImage;
     return (
         <>
-            <ImageContainer
-            // key={`image-${frameState.currentFrameStackItem?.url}-${renderedImage}`}
+            <ExternalLink
+                href={frameState.homeframeUrl}
+                style={{
+                    flex: 1,
+                    display: 'flex',
+                }}
             >
-                {currentFrame.status === "message" ? (
-                    <StatusText>{getErrorMessageFromFramesStackItem(currentFrame)}</StatusText>
-                ) : null}
-                <FrameImage
-                    src={renderedImage}
-                    key={`actions-${frameState.currentFrameStackItem?.url}-${renderedImage}`}
-                    alt="Frame image"
-                    style={{
-                        filter: isImageLoading ? "blur(4px)" : undefined,
-                        opacity: !renderedImage || isImageError ? 0 : 1
-                    }}
-                    onLoadStart={() => {
-                        setIsImageLoading(true);
-                    }}
-                    onLoad={() => {
-                        setIsImageLoading(false);
-                    }}
-                    onError={() => {
-                        setIsImageLoading(false);
-                        setIsImageError(true);
-                    }}
-                />
-                {!!frame && isImageError ? (
-                    <StatusText $absolute key={`error-${frame.title}`}>
-                        {frame.title}
-                    </StatusText>
-                ) : null}
-                {!!frame && isImageLoading ? (
-                    <StatusText $absolute key={`img-loading-${frame.title}`}>
-                        Loading image
-                    </StatusText>
-                ) : null}
-                {currentFrame.status === "pending" ? (
-                    <StatusText $absolute key={`next-${frame?.title}`}>
-                        Loading next frame
-                    </StatusText>
-                ) : null}
-            </ImageContainer>
+                <ImageContainer
+                // key={`image-${frameState.currentFrameStackItem?.url}-${renderedImage}`}
+                >
+                    {currentFrame.status === "message" ? (
+                        <StatusText>{getErrorMessageFromFramesStackItem(currentFrame)}</StatusText>
+                    ) : null}
+                    <FrameImage
+                        src={renderedImage}
+                        key={`actions-${frameState.currentFrameStackItem?.url}-${renderedImage}`}
+                        alt="Frame image"
+                        style={{
+                            filter: isImageLoading ? "blur(4px)" : undefined,
+                            opacity: !renderedImage || isImageError ? 0 : 1
+                        }}
+                        onLoadStart={() => {
+                            setIsImageLoading(true);
+                        }}
+                        onLoad={() => {
+                            setIsImageLoading(false);
+                        }}
+                        onError={() => {
+                            setIsImageLoading(false);
+                            setIsImageError(true);
+                        }}
+                    />
+                    {!!frame && isImageError ? (
+                        <StatusText $absolute key={`error-${frame.title}`}>
+                            {frame.title}
+                        </StatusText>
+                    ) : null}
+                    {!!frame && isImageLoading ? (
+                        <StatusText $absolute key={`img-loading-${frame.title}`}>
+                            Loading image
+                        </StatusText>
+                    ) : null}
+                    {currentFrame.status === "pending" ? (
+                        <StatusText $absolute key={`next-${frame?.title}`}>
+                            Loading next frame
+                        </StatusText>
+                    ) : null}
+                </ImageContainer>
+            </ExternalLink>
             <ActionsContainer
                 // key={`actions-${frameState.currentFrameStackItem?.url}`}
                 initial={{ opacity: 0 }}
