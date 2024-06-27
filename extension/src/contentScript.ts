@@ -19,6 +19,7 @@ function copyStyles(sourceElement: HTMLElement, targetElement: HTMLElement) {
 }
 
 function buildIframe(src: string, frameLink: string) {
+    console.log('Building iframe with src', src, 'and frameLink', frameLink);
     const iframe = document.createElement('iframe');
     iframe.classList.add('flinks-iframe');
     iframe.setAttribute('data-url', src);
@@ -42,12 +43,12 @@ function buildIframe(src: string, frameLink: string) {
     const iframeContainer = document.createElement('div');
     iframeContainer.appendChild(aspectRatioContainer);
 
-    // const iframeLink = document.createElement('a');
-    // iframeLink.classList.add('flinks-iframe-link');
-    // iframeLink.href = frameLink;
-    // iframeLink.target = '_blank';
-    // iframeLink.textContent = 'View full frame';
-    // iframeContainer.appendChild(iframeLink);
+    const iframeLink = document.createElement('a');
+    iframeLink.classList.add('flinks-iframe-link');
+    iframeLink.href = frameLink;
+    iframeLink.target = '_blank';
+    iframeLink.textContent = 'View full frame';
+    iframeContainer.appendChild(iframeLink);
 
     return iframeContainer;
 }
@@ -109,7 +110,7 @@ function handleTweet(tweet: Element) {
                 console.log('Frame response', response);
                 const existingIframe = tweetText?.querySelector(`iframe.flinks-iframe[data-url="${tweetLink}"]`);
                 if (response.frameData?.status === 'success' && response.frameData?.frame && !existingIframe) {
-                    const iframe = buildIframe(RENDERING_DOMAIN + "/frames?url=" + encodeURIComponent(tweetLink), response.frameData?.url);
+                    const iframe = buildIframe(RENDERING_DOMAIN + "/frames?url=" + encodeURIComponent(tweetLink), response.url);
                     tweetText?.parentElement?.appendChild(iframe);
                 }
                 const alreadyInjectedText = tweet.querySelector('.flinks-checking-text');

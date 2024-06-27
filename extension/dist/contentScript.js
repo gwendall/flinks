@@ -36,6 +36,7 @@ function copyStyles(sourceElement, targetElement) {
     }
 }
 function buildIframe(src, frameLink) {
+    console.log('Building iframe with src', src, 'and frameLink', frameLink);
     const iframe = document.createElement('iframe');
     iframe.classList.add('flinks-iframe');
     iframe.setAttribute('data-url', src);
@@ -54,12 +55,12 @@ function buildIframe(src, frameLink) {
     aspectRatioContainer.appendChild(iframe);
     const iframeContainer = document.createElement('div');
     iframeContainer.appendChild(aspectRatioContainer);
-    // const iframeLink = document.createElement('a');
-    // iframeLink.classList.add('flinks-iframe-link');
-    // iframeLink.href = frameLink;
-    // iframeLink.target = '_blank';
-    // iframeLink.textContent = 'View full frame';
-    // iframeContainer.appendChild(iframeLink);
+    const iframeLink = document.createElement('a');
+    iframeLink.classList.add('flinks-iframe-link');
+    iframeLink.href = frameLink;
+    iframeLink.target = '_blank';
+    iframeLink.textContent = 'View full frame';
+    iframeContainer.appendChild(iframeLink);
     return iframeContainer;
 }
 function extractTweetLinks(tweet) {
@@ -107,16 +108,16 @@ function handleTweet(tweet) {
         yield fetch(RENDERING_DOMAIN + "/api/frames?url=" + encodeURIComponent(tweetLink))
             .then((response) => response.json())
             .then((response) => {
-            var _a, _b, _c, _d, _e;
+            var _a, _b, _c, _d;
             console.log('Frame response', response);
             const existingIframe = tweetText === null || tweetText === void 0 ? void 0 : tweetText.querySelector(`iframe.flinks-iframe[data-url="${tweetLink}"]`);
             if (((_a = response.frameData) === null || _a === void 0 ? void 0 : _a.status) === 'success' && ((_b = response.frameData) === null || _b === void 0 ? void 0 : _b.frame) && !existingIframe) {
-                const iframe = buildIframe(RENDERING_DOMAIN + "/frames?url=" + encodeURIComponent(tweetLink), (_c = response.frameData) === null || _c === void 0 ? void 0 : _c.url);
-                (_d = tweetText === null || tweetText === void 0 ? void 0 : tweetText.parentElement) === null || _d === void 0 ? void 0 : _d.appendChild(iframe);
+                const iframe = buildIframe(RENDERING_DOMAIN + "/frames?url=" + encodeURIComponent(tweetLink), response.url);
+                (_c = tweetText === null || tweetText === void 0 ? void 0 : tweetText.parentElement) === null || _c === void 0 ? void 0 : _c.appendChild(iframe);
             }
             const alreadyInjectedText = tweet.querySelector('.flinks-checking-text');
             if (alreadyInjectedText) {
-                (_e = alreadyInjectedText.remove) === null || _e === void 0 ? void 0 : _e.call(alreadyInjectedText);
+                (_d = alreadyInjectedText.remove) === null || _d === void 0 ? void 0 : _d.call(alreadyInjectedText);
             }
         })
             .catch(() => {
