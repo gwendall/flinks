@@ -122,7 +122,10 @@ export default function HomePageClient() {
             <LandingBackground />
             <PageContainer>
                 <PageContent>
-                    <StyledNextVideo src={landingVideo} />
+                    <StyledNextVideo
+                        src={landingVideo}
+                        poster="/poster.png"
+                    />
                     <Title>Flinks</Title>
                     <div style={{
                         fontWeight: 'bold',
