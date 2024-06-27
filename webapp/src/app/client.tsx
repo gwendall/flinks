@@ -177,9 +177,14 @@ export default function HomePageClient() {
                             {
                                 label: 'Codebase',
                                 href: 'https://github.com/gwendall/flinks',
+                                external: true,
                             }
-                        ].map(({ label, href }) => (
-                            <StyledLink key={href} href={href}>
+                        ].map(({ label, href, external }) => (
+                            <StyledLink
+                                key={href}
+                                href={href}
+                                target={external ? "_blank" : undefined}
+                            >
                                 {label}
                             </StyledLink>
                         ))}

@@ -1,9 +1,11 @@
 import { withNextVideo } from "next-video/process";
+ 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   compiler: {
     styledComponents: true,
   },
+  pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
   images: {
     remotePatterns: [
       {
