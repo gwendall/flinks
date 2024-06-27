@@ -70,6 +70,10 @@ const PageGlobalStyle = createGlobalStyle`
     body {
         overflow: hidden;
     }
+    .next-video-bg {
+        border-radius: 30px;
+        overflow: hidden;
+    }
 `;
 
 const CHROMESTORE_LINK = "";
