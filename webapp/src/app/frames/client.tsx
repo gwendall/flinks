@@ -5,14 +5,16 @@ import { useSearchParams } from "next/navigation";
 import { FarcasterSigner, fallbackFrameContext, signFrameAction } from "@frames.js/render";
 import { useFrame } from "@frames.js/render/use-frame";
 import { FrameImageNext } from "@frames.js/render/next";
-import { FrameRenderer } from "@/components/FrameRenderer";
+import { FrameRenderer, StatusText } from "@/components/FrameRenderer";
 import EmbedPageContainer from "@/components/EmbedPageContainer";
+import { useQuery } from "@tanstack/react-query";
+import useFrameUrl from "@/hooks/useFrameUrl";
 
 const FrameContainer = styled(EmbedPageContainer)``;
 
-export default function FrameClientPage() {
-    const searchParams = useSearchParams();
-    const url = searchParams.get('url') as string;
+function FramePageInner({ url }: Readonly<{
+    url: string;
+}>) {
     const farcasterSigner: FarcasterSigner = {
         fid: 1,
         status: 'approved',
@@ -43,13 +45,26 @@ export default function FrameClientPage() {
         },
     });
     return (
-        <FrameContainer>
-            <FrameRenderer
-                frameState={frameState}
-                FrameImage={FrameImageNext}
-                enableImageDebugging
-                allowPartialFrame
-            />
-        </FrameContainer>
+        <FrameRenderer
+            frameState={frameState}
+            FrameImage={FrameImageNext}
+            enableImageDebugging
+            allowPartialFrame
+        />
     )
+}
+
+export default function FrameClientPage() {
+    const searchParams = useSearchParams();
+    const url = searchParams.get('url') as string;
+    const { data: frameUrl } = useFrameUrl(url);
+    return (
+        <FrameContainer>
+            {frameUrl ? (
+                <FramePageInner url={frameUrl} />
+            ) : (
+                <StatusText>Checking frame...</StatusText>
+            )}
+        </FrameContainer>
+    );
 }

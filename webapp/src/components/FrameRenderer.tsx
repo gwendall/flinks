@@ -72,7 +72,7 @@ const Button = styled.button`
     }
 `;
 
-const StatusText = styled.div`
+export const StatusText = styled.div`
     width: 100%;
     height: 100%;
     padding: 15px;
