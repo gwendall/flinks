@@ -1,10 +1,13 @@
 "use client";
 
 import { Button } from "@/components/FrameRenderer";
-import { NeynarAuthButton } from "@neynar/react";
+// import { NeynarAuthButton } from "@neynar/react";
 import { useRouter } from "next/navigation";
 import React from "react"
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
+// import Video from 'next-video';
+import landingVideo from '/videos/landing.mp4';
+import BackgroundVideo from "next-video/background-video";
 
 const LandingBackground = styled.div`
     position: absolute;
@@ -28,8 +31,22 @@ const PageContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 50px 15px;
     min-height: 100svh;
+`;
+
+const PageContent = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    max-width: 1000px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 30px;
+    padding: 30px;
+    backdrop-filter: blur(10px);
 `;
 
 const Title = styled.h1`
@@ -38,7 +55,7 @@ const Title = styled.h1`
     font-weight: bold;
     white-space: normal;
     overflow-wrap: normal;
-    background-image: linear-gradient(90deg, #ffbf66, #00b4fb, #ff00ff, #000000);
+    background-image: linear-gradient(90deg, #00b4fb, #ff00ff, #000000);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -66,31 +83,48 @@ function FrameNavForm() {
     );
 }
 
+const PageGlobalStyle = createGlobalStyle`
+    body {
+        overflow: hidden;
+    }
+`;
+
 export default function HomePageClient() {
     return (
-        <>
+        <BackgroundVideo src={landingVideo} style={{
+            padding: 0,
+        }}>
+            <PageGlobalStyle />
             <LandingBackground />
             <PageContainer>
-                <Title>flinks</Title>
-                <div style={{
-                    fontWeight: 'bold',
-                    marginBottom: 15,
-                }}>
-                    Farcaster Frames, across the web.
-                </div>
-                {/* <NeynarAuthButton /> */}
-                <Button style={{
-                    backgroundColor: '#ff00ff',
-                    color: 'white',
-                    fontWeight: 'bold',
-                    fontSize: '1.1rem',
-                    flex: 0,
-                    paddingLeft: 15,
-                    paddingRight: 15,
-                }}>
-                    Install Flinks for Chrome
-                </Button>
+                <PageContent>
+                    <Title>flinks</Title>
+                    <div style={{
+                        fontWeight: 'bold',
+                        marginBottom: 15,
+                    }}>
+                        Farcaster Frames, across the web.
+                    </div>
+                    {/* <Video src={landingVideo} autoPlay loop muted playsInline /> */}
+                    {/* <NeynarAuthButton /> */}
+                    <Button style={{
+                        backgroundColor: '#ff00ff',
+                        color: 'white',
+                        fontWeight: 'bold',
+                        fontSize: '1.1rem',
+                        flex: 0,
+                        paddingLeft: 15,
+                        paddingRight: 15,
+                    }}>
+                        Install Flinks for Chrome
+                    </Button>
+                    <div style={{
+                        marginTop: 10,
+                        color: 'rgba(0, 0, 0, 0.5)',
+                        fontSize: '0.9rem',
+                    }}>or view the codebase</div>
+                </PageContent>
             </PageContainer>
-        </>
+        </BackgroundVideo>
     )
 }

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev & npx next-video sync -w",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -20,6 +20,7 @@
     "frames.js": "^0.17.1",
     "lodash": "^4.17.21",
     "next": "14.1.4",
+    "next-video": "^1.1.0",
     "react": "^18",
     "react-dom": "^18",
     "react-lazy-load-image-component": "^1.6.2",
