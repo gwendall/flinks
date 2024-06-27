@@ -50,7 +50,7 @@ const PageContent = styled.div`
     border-radius: 30px;
     padding: 20px;
     padding-bottom: 30px;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(1px);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 
 `;
