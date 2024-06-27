@@ -299,11 +299,17 @@ export function FrameRenderer({
                                         opacity: isLoading ? 0.5 : 1,
                                     }}
                                     onClick={() => {
-                                        if (isInIframe && frameButton.action === 'link') {
-                                            window.parent.postMessage({
-                                                type: 'openNewFlinkUrl',
-                                                url: frameButton.target,
-                                            }, "*");
+                                        if (isInIframe) {
+                                            if (frameButton.action === 'link') {
+                                                window.parent.postMessage({
+                                                    type: 'openNewFlinkUrl',
+                                                    url: frameButton.target,
+                                                }, "*");
+                                            } else if (frameButton.action === 'mint') {
+                                                window.alert('Minting is coming soon.');
+                                            } else if (frameButton.action === 'tx') {
+                                                window.alert('Transactions are coming soon.');
+                                            }
                                         } else {
                                             Promise.resolve(
                                                 frameState.onButtonPress(
