@@ -14,6 +14,7 @@ const GlobalStyle = createGlobalStyle`
         flex-direction: column;
         font-family: "Inter", sans-serif;
         color: black;
+        background: white;
     }
     * {
         box-sizing: border-box;

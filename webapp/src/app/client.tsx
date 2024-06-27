@@ -90,6 +90,30 @@ const PageGlobalStyle = createGlobalStyle`
     }
 `;
 
+const CHROMESTORE_LINK = "";
+
+const StyledButton = styled(Button)`
+    text-decoration: none;
+    transition: all 200ms ease;
+    @media(hover: hover) {
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+`;
+
+const StyledLink = styled.a`
+    margin: 0 5px;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 0.9rem;
+    text-decoration: none;
+    @media(hover: hover) {
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+`;
+
 export default function HomePageClient() {
     return (
         <>
@@ -123,7 +147,7 @@ export default function HomePageClient() {
                     </div>
                     {/* <Video src={landingVideo} autoPlay loop muted playsInline /> */}
                     {/* <NeynarAuthButton /> */}
-                    <Button style={{
+                    <StyledButton as="a" href={CHROMESTORE_LINK} style={{
                         backgroundColor: '#ff00ff',
                         color: 'white',
                         fontWeight: 'bold',
@@ -133,13 +157,32 @@ export default function HomePageClient() {
                         paddingRight: 15,
                     }}>
                         Install Flinks for Chrome
-                    </Button>
+                    </StyledButton>
                     <div style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                         marginTop: 10,
-                        color: 'rgba(0, 0, 0, 0.5)',
-                        fontSize: '0.9rem',
                     }}>
-                        or view the codebase
+                        {[
+                            {
+                                label: 'Privacy',
+                                href: '/privacy',
+                            },
+                            {
+                                label: 'Support',
+                                href: '/support',
+                            },
+                            {
+                                label: 'Codebase',
+                                href: 'https://github.com/gwendall/flinks',
+                            }
+                        ].map(({ label, href }) => (
+                            <StyledLink key={href} href={href}>
+                                {label}
+                            </StyledLink>
+                        ))}
                     </div>
                 </PageContent>
             </PageContainer>
