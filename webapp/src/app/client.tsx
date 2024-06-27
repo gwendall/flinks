@@ -66,24 +66,6 @@ const Title = styled.h1`
     width: fit-content;
 `;
 
-function FrameNavForm() {
-    const router = useRouter();
-    const [input, setInput] = React.useState<string>('');
-    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setInput(e.target.value);
-    }
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
-        router.push(`/frames?url=${encodeURIComponent(input)}`);
-    }
-    return (
-        <form onSubmit={handleSubmit}>
-            <input type="text" value={input} onChange={handleChange} placeholder="Enter a frame url" />
-            <button type="submit">Submit</button>
-        </form>
-    );
-}
-
 const PageGlobalStyle = createGlobalStyle`
     body {
         overflow: hidden;
@@ -145,7 +127,6 @@ export default function HomePageClient() {
                     }}>
                         Farcaster Frames, in Twitter.
                     </div>
-                    {/* <Video src={landingVideo} autoPlay loop muted playsInline /> */}
                     {/* <NeynarAuthButton /> */}
                     <StyledButton as="a" href={CHROMESTORE_LINK} style={{
                         backgroundColor: '#ff00ff',
