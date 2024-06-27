@@ -2,15 +2,17 @@
 
 import { Button } from "@/components/FrameRenderer";
 // import { NeynarAuthButton } from "@neynar/react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import React from "react"
 import styled, { createGlobalStyle } from "styled-components";
 // import Video from 'next-video';
-import landingVideo from '/videos/landing.mp4';
-import BackgroundVideo from "next-video/background-video";
+import landingVideo from '/videos/landing2.mp4';
+// import BackgroundVideo from "next-video/background-video";
+import NextVideo from "next-video";
+// import { m } from "framer-motion";
 
 const LandingBackground = styled.div`
-    position: absolute;
+    position: fixed;
     border-radius: inherit;
     top: 0;
     right: 0;
@@ -26,12 +28,13 @@ const LandingBackground = styled.div`
 `;
 
 const PageContainer = styled.div`
-    margin: 0 auto;
+    margin: 50px auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 100svh;
+    padding: 50px 0;
 `;
 
 const PageContent = styled.div`
@@ -40,14 +43,16 @@ const PageContent = styled.div`
     align-items: center;
     justify-content: center;
     text-align: center;
-    max-width: 1000px;
+    max-width: 600px;
     width: 100%;
     background-color: rgba(255, 255, 255, 0.5);
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 30px;
-    padding: 20px 30px;
+    padding: 20px;
     backdrop-filter: blur(10px);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    margin: 50px auto;
+
 `;
 
 const Title = styled.h1`
@@ -67,9 +72,6 @@ const Title = styled.h1`
 `;
 
 const PageGlobalStyle = createGlobalStyle`
-    body {
-        overflow: hidden;
-    }
     .next-video-bg {
         border-radius: 30px;
         overflow: hidden;
@@ -89,7 +91,7 @@ const StyledButton = styled(Button)`
 `;
 
 const StyledLink = styled.a`
-    margin: 0 5px;
+    margin: 0 8px;
     color: rgba(0, 0, 0, 0.5);
     font-size: 0.9rem;
     text-decoration: none;
@@ -100,36 +102,25 @@ const StyledLink = styled.a`
     }
 `;
 
+const StyledNextVideo = styled(NextVideo)`
+    border-radius: 20px;
+    margin-bottom: 15px;
+`;
+
 export default function HomePageClient() {
     return (
         <>
-            <div style={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                width: '100vw',
-                height: '100vh',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: 10,
-            }}>
-                <div style={{
-                    margin: 10
-                }}>
-                    <BackgroundVideo src={landingVideo} />
-                </div>
-            </div>
             <PageGlobalStyle />
             <LandingBackground />
             <PageContainer>
                 <PageContent>
+                    <StyledNextVideo src={landingVideo} />
                     <Title>Flinks</Title>
                     <div style={{
                         fontWeight: 'bold',
                         marginBottom: 15,
                     }}>
-                        Farcaster Frames, in Twitter.
+                        Farcaster Frames, right in Twitter.
                     </div>
                     {/* <NeynarAuthButton /> */}
                     <StyledButton as="a" href={CHROMESTORE_LINK} style={{
@@ -150,7 +141,7 @@ export default function HomePageClient() {
                         justifyContent: 'center',
                         marginTop: 10,
                     }}>
-                        {[
+                        {/* {[
                             {
                                 label: 'Privacy',
                                 href: '/privacy',
@@ -159,12 +150,20 @@ export default function HomePageClient() {
                                 label: 'Support',
                                 href: '/support',
                             },
-                            {
-                                label: 'Codebase',
-                                href: 'https://github.com/gwendall/flinks',
-                                external: true,
-                            }
-                        ].map(({ label, href, external }) => (
+                            // {
+                            //     label: 'Codebase',
+                            //     href: 'https://github.com/gwendall/flinks',
+                            //     external: true,
+                            // }
+                        ].map(({
+                            label,
+                            href,
+                            external
+                        }: {
+                            label: string;
+                            href: string;
+                            external?: boolean;
+                        }) => (
                             <StyledLink
                                 key={href}
                                 href={href}
@@ -172,7 +171,13 @@ export default function HomePageClient() {
                             >
                                 {label}
                             </StyledLink>
-                        ))}
+                        ))} */}
+                        <StyledLink
+                            href={"https://warpcast.com/gwendall"}
+                            target={"_blank"}
+                        >
+                            Made by gwendall
+                        </StyledLink>
                     </div>
                 </PageContent>
             </PageContainer>
