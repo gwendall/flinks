@@ -264,7 +264,7 @@ export function FrameRenderer({
                     ) : null}
                     {currentFrame.status === "pending" ? (
                         <StatusText $absolute key={`next-${frame?.title}`}>
-                            Loading next frame
+                            Loading frame
                         </StatusText>
                     ) : null}
                 </ImageContainer>

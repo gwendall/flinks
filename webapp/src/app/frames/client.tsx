@@ -56,6 +56,7 @@ function FramePageInner({ url }: Readonly<{
 const FramePageGlobalStyle = createGlobalStyle`
     html, body, #__next {
         height: 100%;
+        background-color: black;
     }
 `;
 
@@ -70,7 +71,7 @@ export default function FrameClientPage() {
                 {frameUrl ? (
                     <FramePageInner url={frameUrl} />
                 ) : (
-                    <StatusText>Checking frame...</StatusText>
+                    <StatusText>Checking frame</StatusText>
                 )}
             </FrameContainer>
         </>
