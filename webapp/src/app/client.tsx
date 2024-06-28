@@ -1,15 +1,10 @@
 "use client";
 
 import { Button } from "@/components/FrameRenderer";
-// import { NeynarAuthButton } from "@neynar/react";
-// import { useRouter } from "next/navigation";
 import React from "react"
 import styled, { createGlobalStyle } from "styled-components";
-// import Video from 'next-video';
 import landingVideo from '/videos/flinks2.mp4';
-// import BackgroundVideo from "next-video/background-video";
 import NextVideo from "next-video";
-// import { m } from "framer-motion";
 import Markdown from "react-markdown";
 
 const LandingBackground = styled.div`

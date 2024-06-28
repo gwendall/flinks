@@ -1,13 +1,12 @@
 "use client";
 
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import { useSearchParams } from "next/navigation";
 import { FarcasterSigner, fallbackFrameContext, signFrameAction } from "@frames.js/render";
 import { useFrame } from "@frames.js/render/use-frame";
 import { FrameImageNext } from "@frames.js/render/next";
 import { FrameRenderer, StatusText } from "@/components/FrameRenderer";
 import EmbedPageContainer from "@/components/EmbedPageContainer";
-import { useQuery } from "@tanstack/react-query";
 import useFrameUrl from "@/hooks/useFrameUrl";
 
 const FrameContainer = styled(EmbedPageContainer)``;
@@ -54,17 +53,26 @@ function FramePageInner({ url }: Readonly<{
     )
 }
 
+const FramePageGlobalStyle = createGlobalStyle`
+    html, body, #__next {
+        height: 100%;
+    }
+`;
+
 export default function FrameClientPage() {
     const searchParams = useSearchParams();
     const url = searchParams.get('url') as string;
     const { data: frameUrl } = useFrameUrl(url);
     return (
-        <FrameContainer>
-            {frameUrl ? (
-                <FramePageInner url={frameUrl} />
-            ) : (
-                <StatusText>Checking frame...</StatusText>
-            )}
-        </FrameContainer>
+        <>
+            <FramePageGlobalStyle />
+            <FrameContainer>
+                {frameUrl ? (
+                    <FramePageInner url={frameUrl} />
+                ) : (
+                    <StatusText>Checking frame...</StatusText>
+                )}
+            </FrameContainer>
+        </>
     );
 }
