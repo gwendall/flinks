@@ -9,6 +9,7 @@ import { FrameRenderer, StatusText } from "@/components/FrameRenderer";
 import EmbedPageContainer from "@/components/EmbedPageContainer";
 import useFrameUrl from "@/hooks/useFrameUrl";
 import { isInIframe } from "@/utils/misc";
+import { AssetId } from "caip";
 
 const FrameContainer = styled(EmbedPageContainer)``;
 
@@ -43,8 +44,13 @@ function FramePageInner({ url }: Readonly<{
             },
             signFrameAction: signFrameAction,
         },
-        onMint(...args: any[]) {
-            console.log("Minting", args);
+        onMint({ target, ...args }) {
+            try {
+                const parsed = AssetId.parse(target);
+                console.log("Minting", { target, args, parsed });
+            } catch (error) {
+                console.log('Error parsing asset id', error);
+            }
             if (isInIframe) {
                 window.parent.postMessage({
                     type: 'flinkMint',
