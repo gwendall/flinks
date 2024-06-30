@@ -8,6 +8,7 @@ import { FrameImageNext } from "@frames.js/render/next";
 import { FrameRenderer, StatusText } from "@/components/FrameRenderer";
 import EmbedPageContainer from "@/components/EmbedPageContainer";
 import useFrameUrl from "@/hooks/useFrameUrl";
+import { isInIframe } from "@/utils/misc";
 
 const FrameContainer = styled(EmbedPageContainer)``;
 
@@ -44,9 +45,21 @@ function FramePageInner({ url }: Readonly<{
         },
         onMint(...args: any[]) {
             console.log("Minting", args);
+            if (isInIframe) {
+                window.parent.postMessage({
+                    type: 'flinkMint',
+                    url,
+                }, "*");
+            }
         },
         onTransaction: async function (...args: any[]) {
             console.log("Transaction", args);
+            if (isInIframe) {
+                window.parent.postMessage({
+                    type: 'flinkTx',
+                    url,
+                }, "*");
+            }
             return null;
         }
     });

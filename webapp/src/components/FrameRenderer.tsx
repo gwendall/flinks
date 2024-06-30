@@ -9,6 +9,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/opacity.css";
 import ExternalLink from "./ExternalLink";
 import { AccountId, ChainId } from "caip";
+import { isInIframe } from "@/utils/misc";
 
 function getErrorMessageFromFramesStackItem(
     item: FrameStackMessage | FrameStackRequestError
@@ -162,9 +163,6 @@ type FrameRendererProps = {
     enableImageDebugging?: boolean;
 };
 
-const isBrowser = typeof window !== 'undefined';
-const isInIframe = isBrowser && window.self !== window.top;
-
 /** A UI component only, that should be easy for any app to integrate */
 export function FrameRenderer({
     frameState,
@@ -305,16 +303,6 @@ export function FrameRenderer({
                                                 type: 'openNewFlinkUrl',
                                                 url: frameButton.target,
                                             }, "*");
-                                            // } else if (isInIframe && frameButton.action === 'mint') {
-                                            //     window.parent.postMessage({
-                                            //         type: 'flinkMint',
-                                            //         url: frameState.homeframeUrl,
-                                            //     }, "*");
-                                            // } else if (isInIframe && frameButton.action === 'tx') {
-                                            //     window.parent.postMessage({
-                                            //         type: 'flinkTx',
-                                            //         url: frameState.homeframeUrl,
-                                            //     }, "*");
                                         } else {
                                             Promise.resolve(
                                                 frameState.onButtonPress(
