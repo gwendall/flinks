@@ -9,7 +9,6 @@ import { FrameRenderer, StatusText } from "@/components/FrameRenderer";
 import EmbedPageContainer from "@/components/EmbedPageContainer";
 import useFrameUrl from "@/hooks/useFrameUrl";
 import { isInIframe } from "@/utils/misc";
-import { AssetId } from "caip";
 
 const FrameContainer = styled(EmbedPageContainer)``;
 
@@ -44,10 +43,10 @@ function FramePageInner({ url }: Readonly<{
             },
             signFrameAction: signFrameAction,
         },
-        onMint({ target, ...args }) {
+        onMint({ target = '', ...args }) {
             try {
-                const parsed = AssetId.parse(target);
-                console.log("Minting", { target, args, parsed });
+                const [eip, chain, contract, tokenId] = target.split(':');
+                console.log("Minting", { target, eip, chain, contract, tokenId });
             } catch (error) {
                 console.log('Error parsing asset id', error);
             }
