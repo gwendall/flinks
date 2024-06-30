@@ -304,16 +304,16 @@ export function FrameRenderer({
                                                 type: 'openNewFlinkUrl',
                                                 url: frameButton.target,
                                             }, "*");
-                                        } else if (isInIframe && frameButton.action === 'mint') {
-                                            window.parent.postMessage({
-                                                type: 'flinkMint',
-                                                url: frameState.homeframeUrl,
-                                            }, "*");
-                                        } else if (isInIframe && frameButton.action === 'tx') {
-                                            window.parent.postMessage({
-                                                type: 'flinkTx',
-                                                url: frameState.homeframeUrl,
-                                            }, "*");
+                                            // } else if (isInIframe && frameButton.action === 'mint') {
+                                            //     window.parent.postMessage({
+                                            //         type: 'flinkMint',
+                                            //         url: frameState.homeframeUrl,
+                                            //     }, "*");
+                                            // } else if (isInIframe && frameButton.action === 'tx') {
+                                            //     window.parent.postMessage({
+                                            //         type: 'flinkTx',
+                                            //         url: frameState.homeframeUrl,
+                                            //     }, "*");
                                         } else {
                                             Promise.resolve(
                                                 frameState.onButtonPress(
