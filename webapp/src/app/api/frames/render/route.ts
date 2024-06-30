@@ -1,12 +1,8 @@
-// export { GET, POST } from "@frames.js/render/next";
 
-import { GET as frameGET, POST as framePOST } from "@frames.js/render/next";
+import { POST as framePOST } from "@frames.js/render/next";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
-    console.log("GET request received");
-    return frameGET(request);
-}
+export { GET } from "@frames.js/render/next";
 
 export async function POST(request: NextRequest) {
     try {
@@ -19,6 +15,7 @@ export async function POST(request: NextRequest) {
             headers: request.headers,
             body: JSON.stringify(body),
         });
+
         return await framePOST(newRequest);
     } catch (error) {
         console.error("Error processing POST request:", error);
