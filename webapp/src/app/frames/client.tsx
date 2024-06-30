@@ -9,6 +9,7 @@ import { FrameRenderer, StatusText } from "@/components/FrameRenderer";
 import EmbedPageContainer from "@/components/EmbedPageContainer";
 import useFrameUrl from "@/hooks/useFrameUrl";
 import { isInIframe } from "@/utils/misc";
+import parseMintTarget from "@/utils/parseMintTarget";
 
 const FrameContainer = styled(EmbedPageContainer)``;
 
@@ -43,20 +44,20 @@ function FramePageInner({ url }: Readonly<{
             },
             signFrameAction: signFrameAction,
         },
-        onMint({ target = '', ...args }) {
-            try {
-                const [eip, chain, contract, tokenId] = target.split(':');
-                console.log("Minting", { target, eip, chain, contract, tokenId, args });
-            } catch (err) {
-                console.log('Error parsing asset id', err);
-            }
-            if (isInIframe) {
-                window.parent.postMessage({
-                    type: 'flinkMint',
-                    url,
-                }, "*");
-            }
-        },
+        // onMint({ target = '', ...args }) {
+        //     try {
+        //         const { eip, chain, contract, tokenId } = parseMintTarget(target);
+        //         console.log("Minting", { target, eip, chain, contract, tokenId, args });
+        //     } catch (err) {
+        //         console.log('Error parsing asset id', err);
+        //     }
+        //     if (isInIframe) {
+        //         window.parent.postMessage({
+        //             type: 'flinkMint',
+        //             url,
+        //         }, "*");
+        //     }
+        // },
         onTransaction: async function (...args: any[]) {
             console.log("Transaction", args);
             if (isInIframe) {

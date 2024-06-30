@@ -8,6 +8,7 @@ import { appUrl } from "@/utils/const";
 import NeynarContainer from "@/components/NeynarContainer";
 import "./globals.css";
 import "@neynar/react/dist/style.css";
+import ReservoirProvider from "@/components/ReservoirProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,12 +22,14 @@ export default function RootLayout({
       <body className={inter.className}>
         <NeynarContainer>
           <ReactQueryProvider>
-            <StyledComponentsRegistry>
-              <GlobalStyle />
-              <React.Suspense fallback={null}>
-                {children}
-              </React.Suspense>
-            </StyledComponentsRegistry>
+            <ReservoirProvider>
+              <StyledComponentsRegistry>
+                <GlobalStyle />
+                <React.Suspense fallback={null}>
+                  {children}
+                </React.Suspense>
+              </StyledComponentsRegistry>
+            </ReservoirProvider>
           </ReactQueryProvider>
         </NeynarContainer>
       </body>
