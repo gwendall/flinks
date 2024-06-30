@@ -315,24 +315,6 @@ export function FrameRenderer({
                                             //         type: 'flinkTx',
                                             //         url: frameState.homeframeUrl,
                                             //     }, "*");
-                                        } else if (frameButton.action === 'mint') {
-                                            try {
-                                                const accountId = AccountId.parse(frameButton.target);
-                                                window.alert(`Minting ${JSON.stringify({ accountId })}`);
-                                            } catch (err) {
-                                                console.error('Invalid chain ID', err);
-                                                Promise.resolve(
-                                                    frameState.onButtonPress(
-                                                        // Partial frame could have enough data to handle button press
-                                                        frame as Frame,
-                                                        frameButton,
-                                                        index
-                                                    )
-                                                ).catch((e: unknown) => {
-                                                    // eslint-disable-next-line no-console -- provide feedback to the user
-                                                    console.error('Error clicking button.', e);
-                                                });
-                                            }
                                         } else {
                                             Promise.resolve(
                                                 frameState.onButtonPress(

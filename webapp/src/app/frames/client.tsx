@@ -42,6 +42,13 @@ function FramePageInner({ url }: Readonly<{
             },
             signFrameAction: signFrameAction,
         },
+        onMint(...args: any[]) {
+            console.log("Minting", args);
+        },
+        onTransaction: async function (...args: any[]) {
+            console.log("Transaction", args);
+            return null;
+        }
     });
     return (
         <FrameRenderer
