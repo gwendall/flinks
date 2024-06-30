@@ -4,10 +4,11 @@ import styled from "styled-components";
 import type { ImgHTMLAttributes } from "react";
 import type { Frame, FrameButton } from "frames.js";
 import { FrameStackMessage, FrameStackRequestError, FrameState } from "@frames.js/render";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/opacity.css";
 import ExternalLink from "./ExternalLink";
+import { AccountId, ChainId } from "caip";
 
 function getErrorMessageFromFramesStackItem(
     item: FrameStackMessage | FrameStackRequestError
@@ -314,6 +315,25 @@ export function FrameRenderer({
                                             //         type: 'flinkTx',
                                             //         url: frameState.homeframeUrl,
                                             //     }, "*");
+                                        } else if (frameButton.action === 'mint') {
+                                            try {
+                                                const parsed = ChainId.parse(frameButton.target);
+                                                const accountId = AccountId.parse(frameButton.target);
+                                                window.alert(`Minting ${JSON.stringify({ parsed, accountId })}`);
+                                            } catch (err) {
+                                                console.error('Invalid chain ID', err);
+                                                Promise.resolve(
+                                                    frameState.onButtonPress(
+                                                        // Partial frame could have enough data to handle button press
+                                                        frame as Frame,
+                                                        frameButton,
+                                                        index
+                                                    )
+                                                ).catch((e: unknown) => {
+                                                    // eslint-disable-next-line no-console -- provide feedback to the user
+                                                    console.error('Error clicking button.', e);
+                                                });
+                                            }
                                         } else {
                                             Promise.resolve(
                                                 frameState.onButtonPress(
