@@ -317,9 +317,8 @@ export function FrameRenderer({
                                             //     }, "*");
                                         } else if (frameButton.action === 'mint') {
                                             try {
-                                                const parsed = ChainId.parse(frameButton.target);
                                                 const accountId = AccountId.parse(frameButton.target);
-                                                window.alert(`Minting ${JSON.stringify({ parsed, accountId })}`);
+                                                window.alert(`Minting ${JSON.stringify({ accountId })}`);
                                             } catch (err) {
                                                 console.error('Invalid chain ID', err);
                                                 Promise.resolve(
