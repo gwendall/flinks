@@ -46,9 +46,9 @@ function FramePageInner({ url }: Readonly<{
         onMint({ target = '', ...args }) {
             try {
                 const [eip, chain, contract, tokenId] = target.split(':');
-                console.log("Minting", { target, eip, chain, contract, tokenId });
-            } catch (error) {
-                console.log('Error parsing asset id', error);
+                console.log("Minting", { target, eip, chain, contract, tokenId, args });
+            } catch (err) {
+                console.log('Error parsing asset id', err);
             }
             if (isInIframe) {
                 window.parent.postMessage({
