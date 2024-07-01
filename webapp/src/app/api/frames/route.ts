@@ -9,11 +9,6 @@ export async function GET(request: NextRequest) {
     const queryParams = requestUrl.searchParams;
     const { url } = Object.fromEntries(queryParams.entries());
     console.log("Fetching frame for url: ", url);
-    return NextResponse.json({
-        url: url,
-        frameData: {}
-    });
-    /*
     const redirectUrl = await getRedirectUrl(url);
     if (redirectUrl.startsWith("https://warpcast.com")) {
         const warpcastFrame = await getFrameFromWarpcast(redirectUrl);
@@ -28,5 +23,4 @@ export async function GET(request: NextRequest) {
         url: redirectUrl,
         frameData: frame
     });
-    */
 }

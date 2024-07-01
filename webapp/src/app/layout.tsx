@@ -5,10 +5,7 @@ import ReactQueryProvider from "@/components/ReactQueryProvider";
 import React from "react";
 import type { Metadata } from "next";
 import { appUrl } from "@/utils/const";
-import NeynarContainer from "@/components/NeynarContainer";
 import "./globals.css";
-import "@neynar/react/dist/style.css";
-import ReservoirProvider from "@/components/ReservoirProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,18 +17,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <NeynarContainer>
-          <ReactQueryProvider>
-            <ReservoirProvider>
-              <StyledComponentsRegistry>
-                <GlobalStyle />
-                <React.Suspense fallback={null}>
-                  {children}
-                </React.Suspense>
-              </StyledComponentsRegistry>
-            </ReservoirProvider>
-          </ReactQueryProvider>
-        </NeynarContainer>
+        <ReactQueryProvider>
+          <StyledComponentsRegistry>
+            <GlobalStyle />
+            <React.Suspense fallback={null}>
+              {children}
+            </React.Suspense>
+          </StyledComponentsRegistry>
+        </ReactQueryProvider>
       </body>
     </html>
   );
