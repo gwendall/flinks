@@ -24,3 +24,9 @@ export async function GET(request: NextRequest) {
         frameData: frame
     });
 }
+
+export const OPTIONS = async (request: NextRequest) => {
+    return new NextResponse('', {
+        status: 200
+    });
+}
