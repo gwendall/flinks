@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getFrame } from "frames.js";
 import getFrameFromWarpcast from "@/utils/getFrameFromWarpcast";
 import getRedirectUrl from "@/utils/getRedirectUrl";
+import { corsHeaders } from "@/utils/cors";
 
 export async function GET(request: NextRequest) {
     const requestUrl = new URL(request.url);
@@ -18,5 +19,10 @@ export async function GET(request: NextRequest) {
     const response = await axios.get(redirectUrl);
     const htmlString = response.data;
     const frame = await getFrame({ htmlString, url: redirectUrl });
-    return NextResponse.json({ url: redirectUrl, frameData: frame });
+    return NextResponse.json({
+        url: redirectUrl,
+        frameData: frame
+    }, {
+        headers: corsHeaders
+    });
 }

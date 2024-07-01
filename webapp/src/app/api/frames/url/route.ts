@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import getFrameFromWarpcast from "@/utils/getFrameFromWarpcast";
 import getRedirectUrl from "@/utils/getRedirectUrl";
+import { corsHeaders } from "@/utils/cors";
 
 export async function GET(request: NextRequest) {
     const requestUrl = new URL(request.url);
@@ -10,11 +11,17 @@ export async function GET(request: NextRequest) {
     if (redirectUrl.startsWith("https://warpcast.com")) {
         const warpcastFrame = await getFrameFromWarpcast(redirectUrl);
         if (warpcastFrame) {
-            return NextResponse.json(warpcastFrame.url);
+            return NextResponse.json(warpcastFrame.url, {
+                headers: corsHeaders
+            });
         } else {
-            return NextResponse.json(redirectUrl);
+            return NextResponse.json(redirectUrl, {
+                headers: corsHeaders
+            });
         }
     } else {
-        return NextResponse.json(redirectUrl);
+        return NextResponse.json(redirectUrl, {
+            headers: corsHeaders
+        });
     }
 }
