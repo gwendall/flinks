@@ -112,7 +112,12 @@ function handleTweet(tweet) {
         const fetchFrameUrl = WEBAPP_URL + "/api/frames?url=" + encodeURIComponent(tweetLink);
         try {
             console.log('Checking for frame: ' + fetchFrameUrl);
-            const fetchResponse = yield fetch(fetchFrameUrl);
+            const fetchResponse = yield fetch(fetchFrameUrl, {
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
             console.log('Frame response: ', fetchFrameUrl, fetchResponse);
             const fetchJSON = yield fetchResponse.json();
             console.log('Frame response JSON: ', fetchJSON);
