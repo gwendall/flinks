@@ -18,9 +18,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-// const WEBAPP_URL = "https://eminent-pelican-hugely.ngrok-free.app";
+const WEBAPP_URL = "https://eminent-pelican-hugely.ngrok-free.app";
 // const WEBAPP_URL = "https://flinks.gg";
-const WEBAPP_URL = "https://dev.flinks.gg";
+// const WEBAPP_URL = "https://dev.flinks.gg";
 window.addEventListener('message', function (event) {
     if (event.data.type === 'openNewFlinkUrl') {
         if (!confirm('You are about to be redirected to ' + event.data.url)) {
