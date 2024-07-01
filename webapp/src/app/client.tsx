@@ -6,6 +6,7 @@ import styled, { createGlobalStyle } from "styled-components";
 import landingVideo from '/videos/flinks2.mp4';
 import NextVideo from "next-video";
 import Markdown from "react-markdown";
+import { AnimatePresence, motion } from "framer-motion";
 
 const LandingBackground = styled.div`
     position: fixed;
@@ -48,6 +49,9 @@ const PageContent = styled.div`
     backdrop-filter: blur(1px);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 
+    outline: #ff94ff solid 1px;
+    box-shadow: 0 0 10px #ff5cff;
+    border-radius: 5px;
 `;
 
 const Title = styled.h1`
@@ -88,6 +92,8 @@ const StyledButton = styled(Button)`
 const StyledNextVideo = styled(NextVideo)`
     border-radius: 20px;
     margin-bottom: 15px;
+
+    border-radius: 5px;
 `;
 
 const LinksRow = styled.div`
@@ -114,6 +120,7 @@ const VideoContainer = styled.div`
     aspect-ratio: 16 / 9;
     overflow: hidden;
     border-radius: 16px;
+    border-radius: 5px;
     background-color: black;
     display: flex;
     align-items: center;
@@ -138,70 +145,78 @@ export default function HomePageClient() {
             <PageGlobalStyle />
             <LandingBackground />
             <PageContainer>
-                <PageContent>
-                    <VideoContainer>
-                        <StyledNextVideo
-                            src={landingVideo}
-                            poster="/poster.png"
-                        />
-                    </VideoContainer>
-                    <Title>Flinks</Title>
-                    <div style={{
-                        fontWeight: 'bold',
-                        marginBottom: 15,
-                    }}>
-                        Farcaster Frames, right inside Twitter.
-                    </div>
-                    {/* <NeynarAuthButton /> */}
-                    <StyledButton as="a" href={CHROMESTORE_LINK} style={{
-                        backgroundColor: '#ff00ff',
-                        color: 'white',
-                        fontWeight: 'bold',
-                        fontSize: '1.1rem',
-                        flex: 0,
-                        paddingLeft: 15,
-                        paddingRight: 15,
-                    }}>
-                        Install Flinks for Chrome
-                    </StyledButton>
-                    <LinksRow>
-                        <Markdown>
-                            {`Made by gwendall ([warpcast](https://warpcast.com/gwendall), [twitter](https://x.com/gwendall))`}
-                        </Markdown>
-                        <span style={{ margin: "0 5px" }}>-</span>
-                        {[
-                            // {
-                            //     label: 'Privacy',
-                            //     href: '/privacy',
-                            // },
-                            // {
-                            //     label: 'Support',
-                            //     href: '/support',
-                            // },
-                            {
-                                label: 'Github repo',
-                                href: 'https://github.com/gwendall/flinks',
-                                external: true,
-                            }
-                        ].map(({
-                            label,
-                            href,
-                            external
-                        }: {
-                            label: string;
-                            href: string;
-                            external?: boolean;
-                        }) => (
-                            <a
-                                key={href}
-                                href={href}
-                                target={external ? "_blank" : undefined}
-                            >
-                                {label}
-                            </a>
-                        ))}
-                    </LinksRow>
-                </PageContent>
+                <AnimatePresence initial mode="wait">
+                    <PageContent
+                        as={motion.div}
+                        initial={{ opacity: 0, y: 100 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 100 }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        <VideoContainer>
+                            <StyledNextVideo
+                                src={landingVideo}
+                                poster="/poster.png"
+                            />
+                        </VideoContainer>
+                        <Title>Flinks</Title>
+                        <div style={{
+                            fontWeight: 'bold',
+                            marginBottom: 15,
+                        }}>
+                            Farcaster Frames, right inside Twitter.
+                        </div>
+                        {/* <NeynarAuthButton /> */}
+                        <StyledButton as="a" href={CHROMESTORE_LINK} style={{
+                            backgroundColor: '#ff00ff',
+                            color: 'white',
+                            fontWeight: 'bold',
+                            fontSize: '1.1rem',
+                            flex: 0,
+                            paddingLeft: 15,
+                            paddingRight: 15,
+                        }}>
+                            Install Flinks for Chrome
+                        </StyledButton>
+                        <LinksRow>
+                            <Markdown>
+                                {`Made by gwendall ([warpcast](https://warpcast.com/gwendall), [twitter](https://x.com/gwendall))`}
+                            </Markdown>
+                            <span style={{ margin: "0 5px" }}>-</span>
+                            {[
+                                // {
+                                //     label: 'Privacy',
+                                //     href: '/privacy',
+                                // },
+                                // {
+                                //     label: 'Support',
+                                //     href: '/support',
+                                // },
+                                {
+                                    label: 'Github repo',
+                                    href: 'https://github.com/gwendall/flinks',
+                                    external: true,
+                                }
+                            ].map(({
+                                label,
+                                href,
+                                external
+                            }: {
+                                label: string;
+                                href: string;
+                                external?: boolean;
+                            }) => (
+                                <a
+                                    key={href}
+                                    href={href}
+                                    target={external ? "_blank" : undefined}
+                                >
+                                    {label}
+                                </a>
+                            ))}
+                        </LinksRow>
+                    </PageContent>
+                </AnimatePresence>
             </PageContainer>
         </>
     )
