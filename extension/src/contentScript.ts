@@ -1,6 +1,6 @@
-const WEBAPP_URL = "https://eminent-pelican-hugely.ngrok-free.app";
+// const WEBAPP_URL = "https://eminent-pelican-hugely.ngrok-free.app";
 // const WEBAPP_URL = "https://flinks.gg";
-// const WEBAPP_URL = "https://dev.flinks.gg";
+const WEBAPP_URL = "https://dev.flinks.gg";
 
 window.addEventListener('message', function (event) {
     if (event.data.type === 'openNewFlinkUrl') {
@@ -109,10 +109,12 @@ function handleTweet(tweet: Element) {
         try {
             console.log('Checking for frame: ' + fetchFrameUrl);
             const fetchResponse = await fetch(fetchFrameUrl, {
+                method: 'GET',
+                // mode: 'no-cors',
                 credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                // headers: {
+                //     'Content-Type': 'application/json'
+                // },
             });
             console.log('Frame response: ', fetchFrameUrl, fetchResponse);
             const fetchJSON = await fetchResponse.json();

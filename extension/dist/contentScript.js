@@ -18,9 +18,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const WEBAPP_URL = "https://eminent-pelican-hugely.ngrok-free.app";
+// const WEBAPP_URL = "https://eminent-pelican-hugely.ngrok-free.app";
 // const WEBAPP_URL = "https://flinks.gg";
-// const WEBAPP_URL = "https://dev.flinks.gg";
+const WEBAPP_URL = "https://dev.flinks.gg";
 window.addEventListener('message', function (event) {
     if (event.data.type === 'openNewFlinkUrl') {
         if (!confirm('You are about to be redirected to ' + event.data.url)) {
@@ -113,10 +113,12 @@ function handleTweet(tweet) {
         try {
             console.log('Checking for frame: ' + fetchFrameUrl);
             const fetchResponse = yield fetch(fetchFrameUrl, {
+                method: 'GET',
+                // mode: 'no-cors',
                 credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                // headers: {
+                //     'Content-Type': 'application/json'
+                // },
             });
             console.log('Frame response: ', fetchFrameUrl, fetchResponse);
             const fetchJSON = yield fetchResponse.json();
