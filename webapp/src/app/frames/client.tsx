@@ -9,7 +9,6 @@ import { FrameRenderer, StatusText } from "@/components/FrameRenderer";
 import EmbedPageContainer from "@/components/EmbedPageContainer";
 import useFrameUrl from "@/hooks/useFrameUrl";
 import { isInIframe } from "@/utils/misc";
-import parseMintTarget from "@/utils/parseMintTarget";
 
 const FrameContainer = styled(EmbedPageContainer)``;
 
