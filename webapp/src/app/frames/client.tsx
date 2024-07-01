@@ -2,7 +2,7 @@
 
 import styled, { createGlobalStyle } from "styled-components";
 import { useSearchParams } from "next/navigation";
-import { FarcasterSigner, fallbackFrameContext, signFrameAction } from "@frames.js/render";
+import { fallbackFrameContext, signFrameAction } from "@frames.js/render";
 import { useFrame } from "@frames.js/render/use-frame";
 import { FrameImageNext } from "@frames.js/render/next";
 import { FrameRenderer, StatusText } from "@/components/FrameRenderer";
@@ -15,14 +15,6 @@ const FrameContainer = styled(EmbedPageContainer)``;
 function FramePageInner({ url }: Readonly<{
     url: string;
 }>) {
-    const farcasterSigner: FarcasterSigner = {
-        fid: 1,
-        status: 'approved',
-        publicKey:
-            "0x00000000000000000000000000000000000000000000000000000000000000000",
-        privateKey:
-            "0x00000000000000000000000000000000000000000000000000000000000000000",
-    };
     const frameState = useFrame({
         // replace with your frame url
         homeframeUrl: url,
@@ -34,8 +26,8 @@ function FramePageInner({ url }: Readonly<{
         frameContext: fallbackFrameContext,
         // map to your identity if you have one
         signerState: {
-            hasSigner: farcasterSigner !== undefined,
-            signer: farcasterSigner,
+            hasSigner: false,
+            signer: undefined,
             onSignerlessFramePress: () => {
                 // Only run if `hasSigner` is set to `false`
                 // This is a good place to throw an error or prompt the user to login
