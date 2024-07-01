@@ -1,7 +1,6 @@
 
 import { POST as framePOST } from "@frames.js/render/next";
 import { NextRequest, NextResponse } from "next/server";
-import { corsHeaders } from "@/utils/cors";
 
 export { GET } from "@frames.js/render/next";
 
@@ -14,10 +13,7 @@ export async function POST(request: NextRequest) {
         const newRequest = new NextRequest(request.url, {
             method: request.method,
             body: JSON.stringify(body),
-            headers: {
-                ...request.headers,
-                ...corsHeaders,
-            },
+            headers: request.headers,
         });
 
         return await framePOST(newRequest);

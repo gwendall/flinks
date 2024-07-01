@@ -3,12 +3,17 @@ import { NextRequest, NextResponse } from "next/server";
 import { getFrame } from "frames.js";
 import getFrameFromWarpcast from "@/utils/getFrameFromWarpcast";
 import getRedirectUrl from "@/utils/getRedirectUrl";
-import { corsHeaders } from "@/utils/cors";
 
 export async function GET(request: NextRequest) {
     const requestUrl = new URL(request.url);
     const queryParams = requestUrl.searchParams;
     const { url } = Object.fromEntries(queryParams.entries());
+    console.log("Fetching frame for url: ", url);
+    return NextResponse.json({
+        url: url,
+        frameData: {}
+    });
+    /*
     const redirectUrl = await getRedirectUrl(url);
     if (redirectUrl.startsWith("https://warpcast.com")) {
         const warpcastFrame = await getFrameFromWarpcast(redirectUrl);
@@ -22,7 +27,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
         url: redirectUrl,
         frameData: frame
-    }, {
-        headers: corsHeaders
     });
+    */
 }

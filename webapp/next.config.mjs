@@ -2,7 +2,6 @@ import { withNextVideo } from "next-video/process";
  
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  crossOrigin: 'anonymous',
   compiler: {
     styledComponents: true,
   },

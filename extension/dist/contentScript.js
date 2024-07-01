@@ -18,7 +18,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const RENDERING_DOMAIN = "https://flinks.gg";
+const WEBAPP_URL = "https://eminent-pelican-hugely.ngrok-free.app";
+// const WEBAPP_URL = "https://flinks.gg";
 window.addEventListener('message', function (event) {
     if (event.data.type === 'openNewFlinkUrl') {
         if (!confirm('You are about to be redirected to ' + event.data.url)) {
@@ -40,6 +41,7 @@ window.addEventListener('message', function (event) {
     }
 });
 function buildIframe(src, frameLink) {
+    console.log("Building iframe for: " + src);
     const iframe = document.createElement('iframe');
     iframe.classList.add('flinks-iframe');
     iframe.setAttribute('data-url', src);
@@ -91,6 +93,7 @@ function findFirstParentWithAttribute(element, attribute) {
 }
 const processedTweetTexts = new Set();
 function handleTweet(tweet) {
+    // (tweet as HTMLElement).style.backgroundColor = 'red';
     const tweetText = tweet.querySelector('[data-testid="tweetText"]');
     // if (!tweetText || processedTweetTexts.has(tweetText)) return;
     if (!tweetText)
@@ -100,32 +103,39 @@ function handleTweet(tweet) {
     tweetText.style.overflowY = 'visible';
     const tweetLinks = extractTweetLinks(tweet);
     tweetLinks.forEach((tweetLink) => __awaiter(this, void 0, void 0, function* () {
-        var _a;
+        var _a, _b, _c, _d, _e, _f;
         const loadingText = document.createElement('div');
         loadingText.classList.add('flinks-checking-text');
         loadingText.textContent = 'Looking for frame...';
         (_a = tweetText === null || tweetText === void 0 ? void 0 : tweetText.parentElement) === null || _a === void 0 ? void 0 : _a.appendChild(loadingText);
-        yield fetch(RENDERING_DOMAIN + "/api/frames?url=" + encodeURIComponent(tweetLink))
-            .then((response) => response.json())
-            .then((response) => {
-            var _a, _b, _c, _d;
+        const fetchFrameUrl = WEBAPP_URL + "/api/frames?url=" + encodeURIComponent(tweetLink);
+        try {
+            console.log('Checking for frame: ' + fetchFrameUrl);
+            const fetchResponse = yield fetch(fetchFrameUrl, {
+                method: "GET",
+                mode: 'cors',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            console.log('Frame response: ', fetchFrameUrl, fetchResponse);
+            const fetchJSON = yield fetchResponse.json();
+            console.log('Frame response JSON: ', fetchJSON);
             const existingIframe = tweetText === null || tweetText === void 0 ? void 0 : tweetText.querySelector(`iframe.flinks-iframe[data-url="${tweetLink}"]`);
-            if (((_a = response.frameData) === null || _a === void 0 ? void 0 : _a.status) === 'success' && ((_b = response.frameData) === null || _b === void 0 ? void 0 : _b.frame) && !existingIframe) {
-                const iframe = buildIframe(RENDERING_DOMAIN + "/frames?url=" + encodeURIComponent(tweetLink), response.url);
-                (_c = tweetText === null || tweetText === void 0 ? void 0 : tweetText.parentElement) === null || _c === void 0 ? void 0 : _c.appendChild(iframe);
+            if (((_b = fetchJSON.frameData) === null || _b === void 0 ? void 0 : _b.status) === 'success' && ((_c = fetchJSON.frameData) === null || _c === void 0 ? void 0 : _c.frame) && !existingIframe) {
+                const iframe = buildIframe(WEBAPP_URL + "/frames?url=" + encodeURIComponent(tweetLink), fetchJSON.url);
+                (_d = tweetText === null || tweetText === void 0 ? void 0 : tweetText.parentElement) === null || _d === void 0 ? void 0 : _d.appendChild(iframe);
             }
             const alreadyInjectedText = tweet.querySelector('.flinks-checking-text');
             if (alreadyInjectedText) {
-                (_d = alreadyInjectedText.remove) === null || _d === void 0 ? void 0 : _d.call(alreadyInjectedText);
+                (_e = alreadyInjectedText.remove) === null || _e === void 0 ? void 0 : _e.call(alreadyInjectedText);
             }
-        })
-            .catch(() => {
-            var _a;
+        }
+        catch (err) {
+            console.error('Frame not found for: ' + fetchFrameUrl, err.message);
             const alreadyInjectedText = tweet.querySelector('.flinks-checking-text');
             if (alreadyInjectedText) {
-                (_a = alreadyInjectedText.remove) === null || _a === void 0 ? void 0 : _a.call(alreadyInjectedText);
+                (_f = alreadyInjectedText.remove) === null || _f === void 0 ? void 0 : _f.call(alreadyInjectedText);
             }
-        });
+        }
     }));
     // 3. Remove photos and cards
     /*
